@@ -9,6 +9,46 @@ body {
     background-color: #f2f2f2;
 }
 
+.confirmation {
+    background-color: white;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    margin: auto
+}
+
+.confirmation p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.confirmation button.yes,
+.confirmation button.no {
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .4s
+}
+
+.confirmation button.yes {
+    background-color: red;
+}
+
+.confirmation button:hover {
+    background-color: white;
+    color: blue;
+}
+
+
 .container {
     max-width: 600px;
     margin: 0 auto;

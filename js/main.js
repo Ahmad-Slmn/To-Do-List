@@ -23,6 +23,17 @@
 
       // Check if the task is not empty
       if (task !== "") {
+
+          // Check if the task already exists in the task list
+          const taskExists = tasks.some(function (t) {
+              return t.task === task;
+          });
+
+          if (taskExists) {
+              alert("خطأ: المهمة موجودة بالفعل في القائمة");
+              return;
+          }
+
           // Add the task to the array with the current date and time
           const currentDate = new Date();
           const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
@@ -53,7 +64,6 @@
       displayTasks();
 
   });
-
   // Function to display the tasks
   function displayTasks(tasksToShow) {
       // If no tasks are provided, use the original tasks array
@@ -134,8 +144,6 @@
           deleteBtn.addEventListener("click", function () {
               // Get the task index from the data attribute
               const index = parseInt(li.dataset.index);
-
-              // Remove the task from the tasks array
               tasks.splice(index, 1);
 
               // Display the updated tasks
@@ -171,9 +179,10 @@
 
   // Add a click event listener to the search button
   searchBtn.addEventListener("click", function () {
-
-      if (taskList.innerHTML == "") {
-          alert("قائمة المهام فارغة")
+      if (taskList.children.length <= 2) { // إذا كان هناك مهمة واحدة فقط
+          alert("لا يمكن البحث، يجب أن تكون هناك ثلاثة مهمات على الأقل في القائمة!");
+      } else if (taskList.innerHTML == "") {
+          alert("قائمة المهام فارغة");
       } else {
           cancelBtn.style.display = "inline-block";
           this.style.display = "none";
@@ -181,15 +190,10 @@
           searchInput.focus();
           document.getElementById("clearAllBtn").style.display = "none";
           searchInput.addEventListener("input", function () {
-              // Get the search text from the input field
               const searchText = searchInput.value.trim().toLowerCase();
-
-              // Filter the tasks that match the search text
               const filteredTasks = tasks.filter(function (taskObj) {
                   return taskObj.task.toLowerCase().startsWith(searchText);
-              }); // If there are no matching tasks, display a message
-
-              // Display the updated tasks
+              });
               displayTasks(filteredTasks);
               if (filteredTasks.length === 0) {
                   const li = document.createElement("p");
@@ -197,11 +201,10 @@
                   taskList.appendChild(li);
                   return;
               }
-
           });
       }
-
   });
+
 
   cancelBtn.addEventListener("click", function () {
       // Clear the search input field
@@ -225,12 +228,58 @@
 
   // Add a click event listener to the clear button
   clearBtn.addEventListener("click", function () {
-      // Clear the tasks array
-      tasks = [];
+      // Check if tasks list is empty
+      if (tasks.length === 0) {
+          alert("لا يوجد مهام لحذفها");
+          return;
+      }
 
-      // Clear the task list
-      taskList.innerHTML = "";
+      // Create the confirmation element
+      const confirmationElement = document.createElement("div");
+      confirmationElement.classList.add("confirmation");
 
-      // Clear the data from local storage
-      localStorage.clear();
+      // Create a message element
+      const messageElement = document.createElement("p");
+      messageElement.innerText = "هل أنت متأكد أنك تريد حذف جميع المهام؟";
+
+      // Create a container element for the buttons
+      const buttonsContainer = document.createElement("div");
+
+      // Create a "Yes" button
+      const yesButton = document.createElement("button");
+      yesButton.innerText = "نعم";
+      yesButton.classList.add("yes");
+      yesButton.addEventListener("click", function () {
+          // Clear the tasks array
+          tasks = [];
+
+          // Clear the task list
+          taskList.innerHTML = "";
+
+          // Clear the data from local storage
+          localStorage.clear();
+
+          // Hide the confirmation element
+          document.body.removeChild(confirmationElement);
+      });
+
+      // Create a "No" button
+      const noButton = document.createElement("button");
+      noButton.innerText = "لا";
+      noButton.classList.add("no");
+      noButton.addEventListener("click", function () {
+          // Hide the confirmation element
+          document.body.removeChild(confirmationElement);
+      });
+
+      // Append the buttons to the container
+      buttonsContainer.appendChild(yesButton);
+      buttonsContainer.appendChild(noButton);
+
+      // Append the message and buttons to the confirmation element
+      confirmationElement.appendChild(messageElement);
+      confirmationElement.appendChild(buttonsContainer);
+
+      // Add the confirmation element to the page
+      document.body.appendChild(confirmationElement);
   });
