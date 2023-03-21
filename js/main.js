@@ -100,23 +100,36 @@
               const saveBtn = document.createElement("button");
               saveBtn.innerText = "حفظ التعديل";
               saveBtn.addEventListener("click", function () {
-                  // Update the date for the task
-                  const currentDate = new Date();
-                  const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-                  tasks[index].date = dateStr;
-                  tasks[index] = {
-                      task: input.value,
-                      date: dateStr
-                  };
+                  // Get the updated task
+                  const updatedTask = input.value;
 
-                  // Sort tasks by date (newest first)
-                  tasks.sort(function (a, b) {
-                      return new Date(b.date) - new Date(a.date);
+                  // Check if the updated task already exists in the tasks array
+                  const taskExists = tasks.some(function (task, i) {
+                      return task.task === updatedTask && i !== index;
                   });
 
-                  // Display the sorted tasks
-                  displayTasks();
-                  saveTasks();
+                  if (taskExists) {
+                      // Show an error message if the updated task already exists
+                      alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.")
+                  } else {
+                      // Update the date for the task
+                      const currentDate = new Date();
+                      const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+                      tasks[index].date = dateStr;
+                      tasks[index] = {
+                          task: updatedTask,
+                          date: dateStr
+                      };
+
+                      // Sort tasks by date (newest first)
+                      tasks.sort(function (a, b) {
+                          return new Date(b.date) - new Date(a.date);
+                      });
+
+                      // Display the sorted tasks
+                      displayTasks();
+                      saveTasks();
+                  }
               });
 
               // Create a cancel button to cancel the edit
