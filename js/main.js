@@ -186,8 +186,7 @@
 
               // Filter the tasks that match the search text
               const filteredTasks = tasks.filter(function (taskObj) {
-                  return taskObj.task.toLowerCase().includes(searchText);
-
+                  return taskObj.task.toLowerCase().startsWith(searchText);
               }); // If there are no matching tasks, display a message
 
               // Display the updated tasks
