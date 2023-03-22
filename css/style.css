@@ -1,12 +1,20 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box
+    box-sizing: border-box;
+    font-family: "Droid Arabic Naskh"
 }
 
+@font-face {
+  font-family: 'Droid Arabic Naskh';
+  src: url('https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap');
+}
+
+
+
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #f2f2f2
 }
 
 .confirmation {
@@ -21,7 +29,6 @@ body {
 
 .confirmation p {
     font-size: 20px;
-    font-weight: bold;
 }
 
 .confirmation button.yes,
@@ -34,7 +41,6 @@ body {
     margin: 10px;
     width: 100px;
     font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
     transition: .4s
 }
@@ -55,6 +61,7 @@ body {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    position: relative
 }
 
 h1 {
@@ -62,6 +69,22 @@ h1 {
     margin-bottom: 30px;
     color: #333;
     text-align: center;
+}
+
+.Count {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: #333;
+    color: #FFF;
+    padding: 5px 10px;
+    font-size: 15px;
+    z-index: 2;
+    border-radius: 6px
+}
+
+.Count span:first-of-type{
+    color: orange
 }
 
 
@@ -76,7 +99,6 @@ input {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     background-color: #f2f2f2;
     margin-right: 5px;
     outline-color: #333
@@ -86,10 +108,10 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 13px;
     color: #fff;
     background-color: #333;
-    cursor: pointer;
+    cursor: pointer
 }
 
 button:hover {
@@ -120,6 +142,10 @@ li {
     align-items: center
 }
 
+li input{
+    max-width: 200px
+}
+
 li span {
     font-size: 15px;
     color: #333;
@@ -146,7 +172,6 @@ ul p {
     padding: 30px;
     text-align: center;
     font-size: 20px;
-    font-weight: bold;
     color: red;
 }
 
@@ -171,7 +196,6 @@ input[type="search"] {
 
     li button {
         font-size: 10px;
-        font-weight: bold
     }
 
     li span:last-of-type {

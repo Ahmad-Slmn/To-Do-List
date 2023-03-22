@@ -16,6 +16,35 @@
   // Display tasks on page load
   displayTasks();
 
+
+
+  // Get a reference to the task count element
+  const taskCount = document.getElementById("taskCount");
+
+  // Function to update the task count
+  function updateTaskCount() {
+      // Get the current number of tasks
+      const numTasks = tasks.length;
+
+      // Check if there are any tasks
+      if (tasks.length === 0) {
+          document.querySelector(".Count > span:last-of-type").innerText = "قائمة المهام فارغة";
+          taskCount.innerText = null;
+      } else {
+          // Get the current number of tasks
+          const numTasks = tasks.length;
+          // Update the task count element
+          taskCount.innerText = numTasks;
+
+          document.querySelector(".Count > span:last-of-type").innerText = ":عدد المهام";
+
+      }
+  }
+
+  // Call the updateTaskCount function to display the initial count
+  updateTaskCount();
+
+
   // Add a click event listener to the add button
   addBtn.addEventListener("click", function () {
       // Get the task from the input field
@@ -34,6 +63,13 @@
               return;
           }
 
+          // Check if the task has at least three characters
+          if (task.length < 3) {
+              alert("خطأ: يجب إدخال مهمة تحتوي على ثلاثة أحرف على الأقل");
+              return;
+          }
+
+
           // Add the task to the array with the current date and time
           const currentDate = new Date();
           const dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
@@ -41,6 +77,9 @@
               task: task,
               date: dateStr
           });
+
+          // Call the updateTaskCount function to update the task count
+          updateTaskCount();
 
           // Clear the input field
           taskInput.value = "";
@@ -50,20 +89,19 @@
 
           // Save the tasks to local storage
           saveTasks();
+
       } else {
           alert("خطأ: يجب إدخال قيمة في حقل إضافة المهمة لإضافة مهمة جديدة");
           taskInput.focus();
       }
-
       // Sort tasks by date (newest first)
       tasks.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
       });
-
       // Display the sorted tasks
       displayTasks();
-
   });
+
   // Function to display the tasks
   function displayTasks(tasksToShow) {
       // If no tasks are provided, use the original tasks array
@@ -111,6 +149,9 @@
                   if (taskExists) {
                       // Show an error message if the updated task already exists
                       alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.")
+                  } else if (updatedTask.length < 3) {
+                      // Show an error message if the updated task has less than three characters
+                      alert("خطأ: يجب أن تحتوي المهمة على ثلاثة أحرف على الأقل.");
                   } else {
                       // Update the date for the task
                       const currentDate = new Date();
@@ -131,6 +172,7 @@
                       saveTasks();
                   }
               });
+
 
               // Create a cancel button to cancel the edit
               const cancelBtn = document.createElement("button");
@@ -158,7 +200,8 @@
               // Get the task index from the data attribute
               const index = parseInt(li.dataset.index);
               tasks.splice(index, 1);
-
+              // Call the updateTaskCount function to update the task count
+              updateTaskCount();
               // Display the updated tasks
               displayTasks();
 
@@ -171,11 +214,11 @@
 
           // Add the list item to the task list
           taskList.appendChild(li);
-
       });
   }
   // Call the displayTasks function to display the initial tasks
   displayTasks();
+
   // Sort tasks by date (newest first)
   tasks.sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
@@ -268,6 +311,9 @@
 
           // Clear the task list
           taskList.innerHTML = "";
+
+          // Call the updateTaskCount function to display the initial count
+          updateTaskCount();
 
           // Clear the data from local storage
           localStorage.clear();
