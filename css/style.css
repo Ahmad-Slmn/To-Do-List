@@ -196,6 +196,7 @@ input[type="search"] {
 
     li button {
         font-size: 10px;
+        width: 65px
     }
 
     li span:last-of-type {
