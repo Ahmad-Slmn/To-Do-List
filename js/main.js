@@ -49,9 +49,16 @@
   addBtn.addEventListener("click", function () {
       // Get the task from the input field
       const task = taskInput.value.trim();
+      // Check if the task contains only symbols
+      const symbolsPattern = new RegExp("^[^A-Za-z0-9]+$");
+      if (symbolsPattern.test(task)) {
+          alert("خطأ: المهمة يجب ألا تحتوي على رموز فقط");
+          return;
+      }
 
       // Check if the task is not empty
       if (task !== "") {
+
 
           // Check if the task already exists in the task list
           const taskExists = tasks.some(function (t) {
@@ -147,6 +154,14 @@
                   });
 
                   if (taskExists) {
+
+                      // Check if the updated task contains only symbols
+                      const symbolsPattern = new RegExp("^[^A-Za-z0-9]+$");
+                      if (symbolsPattern.test(updatedTask)) {
+                          alert("خطأ: المهمة يجب ألا تحتوي على رموز فقط");
+                          input.focus();
+                          return;
+                      }
                       // Show an error message if the updated task already exists
                       alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.");
                       input.focus()
@@ -171,10 +186,32 @@
                       tasks.sort(function (a, b) {
                           return new Date(b.date) - new Date(a.date);
                       });
+                      // Create a success message element
+                      const successMsg = document.createElement("div");
+                      successMsg.classList.add("success-message");
+                      successMsg.innerText = "!تم حفظ التعديل بنجاح";
+
+                      // Append the success message to the container
+                      document.querySelector(".container").insertBefore(successMsg, document.querySelector(".container").firstChild);
+
+                      // Fade in the success message
+                      setTimeout(function () {
+                          successMsg.style.opacity = "1";
+                      }, 30);
+
+                      // Fade out the success message after 2 seconds
+                      setTimeout(function () {
+                          successMsg.style.opacity = "0";
+                          setTimeout(function () {
+                              successMsg.parentNode.removeChild(successMsg);
+                          }, 1000);
+                      }, 2000);
+
 
                       // Display the sorted tasks
                       displayTasks();
                       saveTasks();
+
                   }
               });
 
@@ -212,6 +249,28 @@
 
               // Save the tasks to local storage
               saveTasks();
+
+              // Create a success message element
+              const successMsg = document.createElement("div");
+              successMsg.classList.add("success-message");
+              successMsg.innerText = "!تم حذف المهمة بنجاح";
+              successMsg.style.backgroundColor = "red";
+              successMsg.style.color = "#fff";
+              // Append the success message to the container
+              document.querySelector(".container").insertBefore(successMsg, document.querySelector(".container").firstChild);
+
+              // Fade in the success message
+              setTimeout(function () {
+                  successMsg.style.opacity = "1";
+              }, 30);
+
+              // Fade out the success message after 2 seconds
+              setTimeout(function () {
+                  successMsg.style.opacity = "0";
+                  setTimeout(function () {
+                      successMsg.parentNode.removeChild(successMsg);
+                  }, 1000);
+              }, 2000);
           });
 
           // Add the delete button to the list item
