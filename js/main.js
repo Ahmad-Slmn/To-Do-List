@@ -148,10 +148,15 @@
 
                   if (taskExists) {
                       // Show an error message if the updated task already exists
-                      alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.")
+                      alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.");
+                      input.focus()
                   } else if (updatedTask.length < 3) {
                       // Show an error message if the updated task has less than three characters
                       alert("خطأ: يجب أن تحتوي المهمة على ثلاثة أحرف على الأقل.");
+                  } else if (updatedTask === tasks[index].task) {
+                      // Show a message if the task hasn't been changed
+                      alert("لم تقم بتغيير المهمة.");
+                      input.focus();
                   } else {
                       // Update the date for the task
                       const currentDate = new Date();
@@ -319,7 +324,7 @@
           localStorage.clear();
 
           // Hide the confirmation element
-          document.body.removeChild(confirmationElement);
+          document.querySelector(".container").removeChild(confirmationElement);
       });
 
       // Create a "No" button
@@ -328,7 +333,7 @@
       noButton.classList.add("no");
       noButton.addEventListener("click", function () {
           // Hide the confirmation element
-          document.body.removeChild(confirmationElement);
+          document.querySelector(".container").removeChild(confirmationElement)
       });
 
       // Append the buttons to the container
@@ -340,5 +345,5 @@
       confirmationElement.appendChild(buttonsContainer);
 
       // Add the confirmation element to the page
-      document.body.appendChild(confirmationElement);
+      document.querySelector(".container").appendChild(confirmationElement)
   });
