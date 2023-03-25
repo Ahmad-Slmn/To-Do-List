@@ -49,16 +49,16 @@
   addBtn.addEventListener("click", function () {
       // Get the task from the input field
       const task = taskInput.value.trim();
-      // Check if the task contains only symbols
-      const symbolsPattern = new RegExp("^[^A-Za-z0-9]+$");
-      if (symbolsPattern.test(task)) {
-          alert("خطأ: المهمة يجب ألا تحتوي على رموز فقط");
-          return;
-      }
 
       // Check if the task is not empty
       if (task !== "") {
 
+          // Check if the task contains at least one non-symbol character
+          if (!task.match(/[a-zA-Z\u0600-\u06FF]/)) {
+              alert("خطأ: يجب إدخال مهمة تحتوي على أحرف غير رموز");
+              taskInput.focus();
+              return;
+          }
 
           // Check if the task already exists in the task list
           const taskExists = tasks.some(function (t) {
@@ -75,7 +75,6 @@
               alert("خطأ: يجب إدخال مهمة تحتوي على ثلاثة أحرف على الأقل");
               return;
           }
-
 
           // Add the task to the array with the current date and time
           const currentDate = new Date();
@@ -153,15 +152,13 @@
                       return task.task === updatedTask && i !== index;
                   });
 
+                  // Check if the task contains at least one non-symbol character
+                  if (!updatedTask.match(/[a-zA-Z\u0600-\u06FF]/)) {
+                      alert("خطأ: يجب إدخال مهمة تحتوي على أحرف غير رموز");
+                      input.focus();
+                      return;
+                  }
                   if (taskExists) {
-
-                      // Check if the updated task contains only symbols
-                      const symbolsPattern = new RegExp("^[^A-Za-z0-9]+$");
-                      if (symbolsPattern.test(updatedTask)) {
-                          alert("خطأ: المهمة يجب ألا تحتوي على رموز فقط");
-                          input.focus();
-                          return;
-                      }
                       // Show an error message if the updated task already exists
                       alert("هذه المهمة موجودة بالفعل. الرجاء تحديث المهمة بمحتوى مختلف.");
                       input.focus()
@@ -214,7 +211,6 @@
 
                   }
               });
-
 
               // Create a cancel button to cancel the edit
               const cancelBtn = document.createElement("button");
@@ -382,6 +378,27 @@
           // Clear the data from local storage
           localStorage.clear();
 
+          // Create a success message element
+          const successMsg = document.createElement("div");
+          successMsg.classList.add("success-message");
+          successMsg.innerText = "تم حذف جميع المهام";
+          successMsg.style.backgroundColor = "red";
+          successMsg.style.color = "#fff";
+          // Append the success message to the container
+          document.querySelector(".container").insertBefore(successMsg, document.querySelector(".container").firstChild);
+
+          // Fade in the success message
+          setTimeout(function () {
+              successMsg.style.opacity = "1";
+          }, 30);
+
+          // Fade out the success message after 2 seconds
+          setTimeout(function () {
+              successMsg.style.opacity = "0";
+              setTimeout(function () {
+                  successMsg.parentNode.removeChild(successMsg);
+              }, 1000);
+          }, 2000);
           // Hide the confirmation element
           document.querySelector(".container").removeChild(confirmationElement);
       });
