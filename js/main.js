@@ -165,10 +165,10 @@
                   } else if (updatedTask.length < 3) {
                       // Show an error message if the updated task has less than three characters
                       alert("خطأ: يجب أن تحتوي المهمة على ثلاثة أحرف على الأقل.");
-                  } else if (updatedTask === tasks[index].task) {
+                  } else if (updatedTask.trim() === tasks[index].task.trim()) {
                       // Show a message if the task hasn't been changed
                       alert("لم تقم بتغيير المهمة.");
-                      input.focus();
+                      input.focus()
                   } else {
                       // Update the date for the task
                       const currentDate = new Date();
