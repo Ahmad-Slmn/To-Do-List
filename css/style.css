@@ -10,12 +10,14 @@
     src: url('https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap');
 }
 
-
-
-
 body {
     background-color: #f2f2f2
 }
+
+.matched-text {
+    background-color: yellow
+}
+
 
 .confirmation {
     position: fixed;
@@ -92,17 +94,20 @@ body {
     z-index: 9999
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    margin-bottom: 10px
+}
+
 h1 {
     font-size: 36px;
-    margin-bottom: 30px;
-    color: #333;
-    text-align: center;
+    color: #333
 }
 
 .Count {
-    position: absolute;
-    left: 10px;
-    top: 10px;
     background-color: #333;
     color: #FFF;
     padding: 5px 10px;
@@ -178,11 +183,13 @@ li span {
     font-size: 15px;
     color: #333;
     transition: opacity 0.2s ease-in-out;
-    display: inline-block
+    display: inline-block;
+    flex: 1
 }
 
+li span:first-of-type {}
+
 li span:nth-of-type(2) {
-    margin: auto;
     color: orange
 }
 
@@ -219,8 +226,7 @@ input[type="search"] {
     }
 
     h1 {
-        font-size: 6vw;
-        margin-bottom: 6vw;
+        font-size: 6vw
     }
 
     li button {

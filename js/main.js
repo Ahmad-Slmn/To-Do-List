@@ -36,7 +36,7 @@
           // Update the task count element
           taskCount.innerText = numTasks;
 
-          document.querySelector(".Count > span:last-of-type").innerText = ":عدد المهام";
+          document.querySelector(".Count > span:last-of-type").innerText = ":عدد المهام الحالية";
 
       }
   }
@@ -317,6 +317,20 @@
                   taskList.appendChild(li);
                   return;
               }
+
+              // Color matching character
+              const allTasks = taskList.querySelectorAll("li");
+              allTasks.forEach(function (task) {
+                  const taskName = task.querySelector("span").textContent.toLowerCase();
+                  const index = taskName.indexOf(searchText);
+                  if (index !== -1) {
+                      const matchedText = taskName.slice(index, index + searchText.length);
+                      const newTaskName = taskName.replace(matchedText, `<span class="matched-text">${matchedText}</span>`);
+                      task.querySelector("span").innerHTML = newTaskName;
+                  } else {
+                      task.querySelector("span").textContent = taskName;
+                  }
+              });
           });
       }
   });
