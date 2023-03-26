@@ -307,6 +307,7 @@
           document.getElementById("clearAllBtn").style.display = "none";
           searchInput.addEventListener("input", function () {
               const searchText = searchInput.value.trim().toLowerCase();
+
               const filteredTasks = tasks.filter(function (taskObj) {
                   return taskObj.task.toLowerCase().startsWith(searchText);
               });
@@ -329,6 +330,14 @@
                       task.querySelector("span").innerHTML = newTaskName;
                   } else {
                       task.querySelector("span").textContent = taskName;
+                  }
+
+                  if (searchText.match(/[^\u0000-\u007F]/)) {
+                      // The word contains Arabic letters
+                      task.querySelector("span").classList.add("rtl");
+                  } else {
+                      //The word does not contain Arabic letters
+                      task.querySelector("span").classList.remove("right");
                   }
               });
           });

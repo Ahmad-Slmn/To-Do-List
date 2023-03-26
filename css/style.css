@@ -187,7 +187,9 @@ li span {
     flex: 1
 }
 
-li span:first-of-type {}
+ul li span.rtl {
+    direction: rtl
+}
 
 li span:nth-of-type(2) {
     color: orange
