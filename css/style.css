@@ -1,3 +1,5 @@
+/* ===== Resets ===== */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,19 +7,27 @@
     font-family: "Droid Arabic Naskh"
 }
 
+/* ===== Fonts ===== */
+
 @font-face {
     font-family: 'Droid Arabic Naskh';
     src: url('https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap');
 }
 
+/* ===== Body ===== */
+
 body {
-    background-color: #f2f2f2
+    background-color: #f2f2f2;
 }
+
+
+/* ===== Matched Text ===== */
 
 .matched-text {
-    background-color: yellow
+    background-color: yellow;
 }
 
+/* ===== Confirmation Dialog ===== */
 
 .confirmation {
     position: fixed;
@@ -27,22 +37,21 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 20px;
-    padding: 20px;
     width: 70%;
     max-width: 500px;
     text-align: center;
 }
 
-@media(max-width:767px) {
+@media(max-width: 767px) {
     .confirmation {
         width: 85%;
-        max-width: 800px
+        max-width: 800px;
     }
 }
 
 .confirmation p {
     margin-bottom: 20px;
-    font-weight: bold
+    font-weight: bold;
 }
 
 .confirmation button.yes,
@@ -56,7 +65,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: .4s;
-    width: 65px
+    width: 65px;
 }
 
 .confirmation button.yes {
@@ -68,16 +77,17 @@ body {
     color: blue;
 }
 
-
+/* ===== Container ===== */
 .container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    position: relative
+    position: relative;
 }
 
+/* ===== Success Message ===== */
 .success-message {
     padding: 7px 10px;
     border-radius: 4px;
@@ -91,35 +101,39 @@ body {
     right: 10px;
     opacity: 0;
     transition: opacity 1s ease;
-    z-index: 9999
+    z-index: 9999;
 }
 
+/* ===== Header ===== */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row-reverse;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
+/* ===== Heading ===== */
 h1 {
     font-size: 36px;
-    color: #333
+    color: #333;
 }
 
+/* ===== Count ===== */
 .Count {
     background-color: #333;
     color: #FFF;
     padding: 5px 10px;
     font-size: 15px;
     z-index: 2;
-    border-radius: 6px
+    border-radius: 6px;
 }
 
 .Count span:first-of-type {
-    color: orange
+    color: orange;
 }
 
+/* ===== Form ===== */
 
 form {
     display: flex;
@@ -134,7 +148,7 @@ input {
     border-radius: 5px;
     background-color: #f2f2f2;
     margin-right: 5px;
-    outline-color: #333
+    outline-color: #333;
 }
 
 button {
@@ -144,7 +158,7 @@ button {
     font-size: 13px;
     color: #fff;
     background-color: #333;
-    cursor: pointer
+    cursor: pointer;
 }
 
 button:hover {
@@ -152,12 +166,14 @@ button:hover {
 }
 
 button:first-of-type {
-    margin-left: auto
+    margin-left: auto;
 }
 
 button:nth-of-type(2) {
-    margin-left: 5px
+    margin-left: 5px;
 }
+
+/* ===== List ===== */
 
 ul {
     padding: 0;
@@ -172,11 +188,11 @@ li {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
 }
 
 li input {
-    max-width: 200px
+    max-width: 200px;
 }
 
 li span {
@@ -184,27 +200,28 @@ li span {
     color: #333;
     transition: opacity 0.2s ease-in-out;
     display: inline-block;
-    flex: 1
+    flex: 1;
 }
 
-ul li span.rtl {
-    direction: rtl
+li span.rtl {
+    direction: rtl;
 }
 
 li span:nth-of-type(2) {
-    color: orange
+    color: orange;
 }
 
 li span:hover {
     opacity: 1;
 }
 
-
 li.done {
     background-color: #d9d9d9;
     color: #999;
     text-decoration: line-through;
 }
+
+/* ===== Other ===== */
 
 ul p {
     padding: 30px;
@@ -214,30 +231,44 @@ ul p {
 }
 
 #cancelBtn {
-    display: none
+    display: none;
 }
 
 input[type="search"] {
-    display: none
+    display: none;
 }
 
-@media (max-width: 600px) {
+/* ===== Media Queries ===== */
 
+@media (max-width: 600px) {
     .container {
-        min-width: 95%
+        min-width: 95%;
     }
 
     h1 {
-        font-size: 6vw
+        font-size: 6vw;
     }
 
     li button {
         font-size: 10px;
-        width: 65px
+        width: 65px;
     }
 
     li span:nth-child(2) {
-        font-size: 8px
+        font-size: 8px;
     }
+}
 
+/* ===== Footer ===== */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
