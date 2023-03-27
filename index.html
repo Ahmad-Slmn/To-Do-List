@@ -12,32 +12,24 @@
 </head>
 
 <body>
-    <main>
-        <header>
+    <div class="container">
+        <div class="header">
             <h1>قائمة المهام</h1>
             <div class="Count">
                 <span id="taskCount"></span>
                 <span>:عدد المهام الحالية</span>
             </div>
-        </header>
-        <tbody>
-            <div class="container">
-                <form>
-                    <input type="text" id="taskInput" placeholder="اضف مهمة جديدة">
-                    <button type="button" id="addBtn">اضافة</button>
-                </form>
-                <ul id="taskList"></ul>
-                <button id="clearAllBtn">حذف جميع المهام</button>
-                <input type="search" id="searchInput" placeholder="ابحث عن مهمة">
-                <button id="searchBtn">بحث</button>
-                <button id="cancelBtn">إلغاء البحث</button>
-            </div>
-        </tbody>
-        <footer>
-            <p>حقوق النشر &copy; 2023 جميع الحقوق محفوظة</p>
-        </footer>
-
-    </main>
+        </div>
+        <form>
+            <input type="text" id="taskInput" placeholder="اضف مهمة جديدة">
+            <button type="button" id="addBtn">اضافة</button>
+        </form>
+        <ul id="taskList"></ul>
+        <button id="clearAllBtn">حذف جميع المهام</button>
+        <input type="search" id="searchInput" placeholder="ابحث عن مهمة">
+        <button id="searchBtn">بحث</button>
+        <button id="cancelBtn">إلغاء البحث</button>
+    </div>
     <script src="js/main.js"></script>
 </body>
 
