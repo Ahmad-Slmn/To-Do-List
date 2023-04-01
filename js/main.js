@@ -149,7 +149,7 @@
 
                   // Check if the updated task already exists in the tasks array
                   const taskExists = tasks.some(function (task, i) {
-                      return task.task === updatedTask && i !== index;
+                      return task.task.trim() === updatedTask.trim() && i !== index;
                   });
 
                   // Check if the task contains at least one non-symbol character
