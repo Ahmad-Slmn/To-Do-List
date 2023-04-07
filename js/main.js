@@ -118,13 +118,53 @@
       // Clear the task list
       taskList.innerHTML = "";
 
+      // Sort tasks by completion status and then by date (newest first)
+      tasksToShow.sort(function (a, b) {
+          if (a.completed && !b.completed) {
+              return 1;
+          } else if (!a.completed && b.completed) {
+              return -1;
+          } else {
+              return new Date(b.date) - new Date(a.date);
+          }
+      });
+
       // Loop through the tasks array and add each task to the task list
       tasksToShow.forEach(function (taskObj, index) {
           // Create a new list item
           const li = document.createElement("li");
 
+          // Add the "completed" class to the list item if the task is completed
+          if (taskObj.completed) {
+              li.classList.add("completed")
+          }
+
+          // Create a new checkbox input element
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = taskObj.completed;
+
+          // Add event listener to the checkbox to update task completion status
+          checkbox.addEventListener("click", function () {
+              // Get the task index from the data attribute
+              const index = parseInt(li.dataset.index);
+
+              // Toggle the completed property of the task object
+              tasks[index].completed = !tasks[index].completed;
+
+              // Save the tasks to local storage
+              saveTasks();
+
+              // Display the updated tasks
+              displayTasks();
+          });
+
+
           // Add the task text and date to the list item
-          li.innerHTML = `<span>${taskObj.task}</span><span>${taskObj.date}</span>`;
+          li.innerHTML += `<span>${taskObj.task}</span><span>${taskObj.date}</span>`;
+
+          // Add the checkbox to the list item
+          li.appendChild(checkbox);
 
           // Add a data attribute to the list item to store the task index
           li.dataset.index = index;
@@ -186,7 +226,7 @@
                       // Create a success message element
                       const successMsg = document.createElement("div");
                       successMsg.classList.add("success-message");
-                      successMsg.innerText = "!تم حفظ التعديل بنجاح";
+                      successMsg.innerText = "!تم تعديل المهمة بنجاح";
 
                       // Append the success message to the container
                       document.querySelector(".container").insertBefore(successMsg, document.querySelector(".container").firstChild);
