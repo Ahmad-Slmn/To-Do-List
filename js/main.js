@@ -377,7 +377,7 @@
                       task.querySelector("span").classList.add("rtl");
                   } else {
                       //The word does not contain Arabic letters
-                      task.querySelector("span").classList.remove("right");
+                      task.querySelector("span").classList.remove("rtl");
                   }
               });
           });
