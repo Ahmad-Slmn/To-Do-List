@@ -1,38 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="discription" content="js" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="description" content="قائمة مهام تفاعلية" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>قائمة المهام</title>
-    <link href="https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="website.png">
+    <link href="https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap" rel="stylesheet" />
+    <script>
+        (function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="website.png" />
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
+    <!-- زر تغيير الثيم -->
+    <button id="themeToggle" title="تبديل الوضع الليلي/النهاري" style="position: absolute; top: 10px; left: 10px;">🌙</button>
+
+    <!-- نافذة التأكيد -->
+    <div id="confirm-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc" hidden>
+        <div class="modal-content">
+            <h2 id="confirm-title">تأكيد</h2>
+            <p id="confirm-desc">هل أنت متأكد من القيام بهذا الإجراء؟</p>
+            <div class="modal-buttons">
+                <button id="confirm-yes-btn" class="btn btn-yes">نعم</button>
+                <button id="confirm-no-btn" class="btn btn-no">لا</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div id="modal-overlay" hidden></div>
+
+        <header class="header">
             <h1>قائمة المهام</h1>
             <div class="Count">
                 <span id="taskCount"></span>
                 <span>:عدد المهام الحالية</span>
+                <span id="completionRate" style="margin-right: 10px; color: green; font-weight: bold;"></span>
             </div>
-        </div>
-        <form>
-            <input type="text" id="taskInput" placeholder="اضف مهمة جديدة">
-            <button type="button" id="addBtn">اضافة</button>
+        </header>
+
+        <!-- نموذج إدخال المهمة -->
+        <form onsubmit="return false;">
+            <input id="taskInput" type="text" placeholder="أضف مهمة جديدة" autocomplete="off" />
+
+            <!-- تحديد الأولوية -->
+            <select id="priorityInput" title="تحديد أولوية المهمة">
+                <option value="high">عاجل ⛔</option>
+                <option value="medium" selected>متوسط ⚠️</option>
+                <option value="low">منخفض ✅</option>
+            </select>
+
+            <!-- إدخال الموعد النهائي -->
+            <input id="deadlineInput" type="datetime-local" title="اختر الموعد النهائي" />
+
+            <button id="addBtn" type="button">إضافة</button>
         </form>
+
+        <!-- قائمة المهام -->
         <ul id="taskList"></ul>
-        <div class="box">
+
+        <!-- أدوات إضافية -->
+        <section class="box">
             <button id="clearAllBtn">حذف جميع المهام</button>
-            <input type="search" id="searchInput" placeholder="ابحث عن مهمة">
-            <button id="searchBtn">بحث</button>
-            <button id="cancelBtn">إلغاء البحث</button>
-        </div>
-    </div>
-    <script src="js/main.js"></script>
+            <input id="searchInput" type="search" placeholder="ابحث عن مهمة" />
+            <button id="searchBtn" type="button">بحث</button>
+            <button id="cancelBtn" type="button" style="display:none;">إلغاء البحث</button>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>
