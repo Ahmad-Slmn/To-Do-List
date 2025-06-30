@@ -55,31 +55,38 @@ function displayTasks(filteredTasks = null) {
 
     list.forEach((taskObj, index) => {
         const li = document.createElement("li");
-        li.classList.toggle("completed", taskObj.completed);
         li.dataset.index = index;
+        li.classList.toggle("completed", taskObj.completed);
+
         if (taskObj.priority) {
             li.classList.add(`priority-${taskObj.priority}`);
         }
 
+        // إنشاء الـ checkbox
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = taskObj.completed;
         checkbox.addEventListener("click", () => toggleTaskCompletion(index));
 
-        const taskSpan = document.createElement("span");
-        taskSpan.textContent = taskObj.task;
+        // اسم المهمة
+        const taskName = document.createElement("span");
+        taskName.className = "task-name";
+        taskName.textContent = taskObj.task;
 
-        const dateSpan = document.createElement("span");
-        dateSpan.classList.add("task-deadline");
-
+        // الموعد النهائي
+        const taskDeadline = document.createElement("span");
+        taskDeadline.className = "task-deadline";
         if (taskObj.deadline) {
             const d = new Date(taskObj.deadline);
             const formattedDeadline = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
-            // عرض التاريخ مع السهم بين تاريخ الإنشاء والموعد النهائي
-            dateSpan.textContent = `${taskObj.date} → ${formattedDeadline}`;
+            taskDeadline.textContent = `${taskObj.date} → ${formattedDeadline}`;
         } else {
-            dateSpan.textContent = taskObj.date;
+            taskDeadline.textContent = taskObj.date;
         }
+
+        // أزرار التحكم
+        const actionContainer = document.createElement("div");
+        actionContainer.className = "task-actions";
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "تعديل";
@@ -88,16 +95,20 @@ function displayTasks(filteredTasks = null) {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "حذف";
         deleteBtn.addEventListener("click", () => deleteTask(index));
+actionContainer.appendChild(deleteBtn);
+        actionContainer.appendChild(editBtn);
+        
 
-        li.appendChild(taskSpan);
-        li.appendChild(dateSpan); // يحتوي الآن على تاريخ الإنشاء والسهم والموعد النهائي
-        li.appendChild(checkbox);
-        li.appendChild(editBtn);
-        li.appendChild(deleteBtn);
+        // ← ترتيب العناصر داخل li حسب الطلب:
+        li.appendChild(actionContainer);  // ← أزرار التحكم على أقصى اليمين
+        li.appendChild(checkbox);         // ← التشييك
+        li.appendChild(taskDeadline);     // ← التاريخ في المنتصف
+        li.appendChild(taskName);         // ← اسم المهمة في أقصى اليسار
 
         taskList.appendChild(li);
     });
 }
+
 
 // === تبديل إتمام المهمة ===
 function toggleTaskCompletion(index) {
@@ -384,10 +395,10 @@ function clearAllTasks() {
 
 // === نافذة تأكيد ===
 function showConfirmation(message, onConfirm, onCancel) {
-    const confirmation = document.createElement("div");
-    confirmation.className = "custom-confirmation";
+  const confirmation = document.createElement("div");
+  confirmation.className = "custom-confirmation show";
 
-    confirmation.innerHTML = `
+  confirmation.innerHTML = `
     <div class="confirm-content">
       <p>${message}</p>
       <div class="confirm-buttons">
@@ -397,24 +408,39 @@ function showConfirmation(message, onConfirm, onCancel) {
     </div>
   `;
 
-    document.body.appendChild(confirmation);
+  document.body.appendChild(confirmation);
 
-    setTimeout(() => confirmation.style.opacity = "1", 10);
+  const content = confirmation.querySelector(".confirm-content");
 
-    confirmation.querySelector(".confirm-yes").onclick = () => {
-        onConfirm();
-        closeConfirmation();
-    };
+  // تأخير لإظهار النافذة بتدرج وتحريك
+  setTimeout(() => {
+    content.classList.add("show");
 
-    confirmation.querySelector(".confirm-no").onclick = () => {
-        if (onCancel) onCancel();
-        closeConfirmation();
-    };
+    // ✳️ تطبيق التأثير على زر "لا"
+    const noBtn = confirmation.querySelector(".confirm-no");
+    noBtn.classList.add("attention");
 
-    function closeConfirmation() {
-        confirmation.style.opacity = "0";
-        setTimeout(() => confirmation.remove(), 300);
-    }
+    // إزالة التأثير بعد نصف ثانية لتجنّب التكرار الدائم
+    setTimeout(() => {
+      noBtn.classList.remove("attention");
+    }, 500);
+  }, 10);
+
+  confirmation.querySelector(".confirm-yes").onclick = () => {
+    onConfirm();
+    closeConfirmation();
+  };
+
+  confirmation.querySelector(".confirm-no").onclick = () => {
+    if (onCancel) onCancel();
+    closeConfirmation();
+  };
+
+  function closeConfirmation() {
+    content.classList.remove("show");
+    confirmation.classList.remove("show");
+    setTimeout(() => confirmation.remove(), 300);
+  }
 }
 
 // === تفعيل الثيم حسب الحالة المحفوظة ===

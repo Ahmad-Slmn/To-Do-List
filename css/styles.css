@@ -62,30 +62,28 @@ html.dark-theme {
 body {
   background-color: var(--bg-body);
   color: var(--text-body);
-  overflow: hidden;
-  height: 100vh;
+  min-height: 100vh; /* بدلاً من height */
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: var(--font-base);
+  padding: 10px; /* لتجنب تلاصق المحتوى على الحواف في الشاشات الصغيرة */
+  box-sizing: border-box;
 }
+
 
 /* === Container === */
 .container {
   max-width: 800px;
-  width: 90%;
-  max-height: 90vh;
+  width: 100%;
   padding: 20px;
   background: var(--container-bg);
   box-shadow: 0 0 10px var(--container-shadow);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border-radius: var(--border-radius);
   overflow-y: auto;
   box-sizing: border-box;
 }
+
 
 /* === Priority Styles === */
 li.priority-high,
@@ -95,7 +93,7 @@ li.priority-low {
   color: inherit;
 }
 
-
+/* الوضع العادي (الفاتح) */
 li.priority-high {
   border-color: var(--priority-high-border);
   background-color: var(--priority-high-bg);
@@ -114,7 +112,7 @@ li.priority-low {
   color: inherit;
 }
 
-
+/* الوضع الليلي فقط */
 html.dark-theme body li.priority-high {
   border-left: 4px solid var(--priority-high-border);
   background-color: var(--priority-high-bg);
@@ -132,6 +130,7 @@ html.dark-theme body li.priority-low {
   background-color: var(--priority-low-bg);
   color: var(--priority-low-text); /* نص أخضر فاتح */
 }
+
 
 /* === Inputs === */
 input[type="datetime-local"],
@@ -156,22 +155,6 @@ input[type="datetime-local"]:focus,
 select#priorityInput:focus {
   border-color: var(--input-outline);
   outline: none;
-}
-
-/* === Theme Toggle Button === */
-#themeToggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background-color: var(--button-bg);
-  color: var(--button-color);
-  border: none;
-  padding: 8px 12px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 18px;
-  z-index: 11000;
-  transition: background-color var(--transition-fast);
 }
 
 #themeToggle:hover {
@@ -212,6 +195,10 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
 .custom-confirmation,
 #modal-overlay {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   inset: 0;
   background: rgba(0,0,0,0.5);
   display: flex;
@@ -235,13 +222,14 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
   padding: 20px 30px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  max-width: 320px;
+  max-width: 350px;
   width: 90%;
   font-family: var(--font-base);
   text-align: center;
   font-size: 16px;
   opacity: 0;
   pointer-events: none;
+  transform: scale(0.8);
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
@@ -250,6 +238,13 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
   pointer-events: auto;
   transform: translate(-50%, -50%) scale(1);
 }
+
+.confirm-content.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1)
+}
+
 
 .modal-content h2 {
   margin-bottom: 10px;
@@ -271,10 +266,11 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
 
 .confirm-buttons button,
 .btn {
-  padding: 8px 18px;
-  font-size: 15px;
+ padding: 10px 20px;             /* ارتفاع وعرض داخلي مناسب */
+  min-width: 90px;                /* يمنع صغر الزر في حالة النص القصير */
+  font-size: 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color var(--transition-fast);
 }
@@ -294,6 +290,21 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
 .btn-no {
   background-color: #f44336;
   color: white;
+  animation: shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97)
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  10%  { transform: translateX(-8px); }
+  20%  { transform: translateX(8px); }
+  30%  { transform: translateX(-6px); }
+  40%  { transform: translateX(6px); }
+  50%  { transform: translateX(-4px); }
+  60%  { transform: translateX(4px); }
+  70%  { transform: translateX(-2px); }
+  80%  { transform: translateX(2px); }
+  90%  { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
 }
 
 .confirm-no:hover,
@@ -342,7 +353,7 @@ html.dark-theme #taskList::-webkit-scrollbar-thumb {
 
 h1 {
   font-size: 36px;
-  color: var(--text-body);
+  color: #333;
 }
 
 .Count {
@@ -356,6 +367,13 @@ h1 {
 
 .Count span:first-child {
   color: orange;
+}
+
+#themeToggle {
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
 /* === Form === */
@@ -427,47 +445,49 @@ button:hover {
 /* === Task Items === */
 li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   background: var(--input-bg);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
   color: inherit;
+  flex-wrap: wrap;
+  direction: rtl; /* لضمان ترتيب العناصر من اليمين لليسار */
 }
 
-li span {
-  font-size: 15px;
+/* اسم المهمة */
+li .task-name {
   flex: 1;
-  transition: opacity 0.2s ease-in-out;
-  display: inline-block;
-}
-
-li span.rtl {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
   direction: rtl;
+  word-wrap: break-word;
 }
 
-li.completed span {
-  text-decoration: line-through double;
-  color: gray !important;
+/* التاريخ */
+li .task-deadline {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: inherit;
 }
 
-/* Checkbox styles */
+/* مربع التحديد */
 li input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid var(--text-body);
   border-radius: 4px;
   cursor: pointer;
   position: relative;
-  margin-right: 10px;
   transition: all 0.3s ease;
   background: transparent;
-  color: inherit;
+  margin-inline: 5px;
+  flex-shrink: 0;
 }
 
 li input[type="checkbox"]:checked {
@@ -486,31 +506,35 @@ li input[type="checkbox"]:checked::before {
   line-height: 1;
 }
 
-/* Buttons inside task items */
-li button {
-  margin-left: 5px;
+/* أزرار التحكم */
+li .task-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+li .task-actions button {
   padding: 5px 10px;
   font-size: 13px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
-}
-
-li button:first-of-type {
   background: #008CBA;
   color: #fff;
 }
 
-li button:first-of-type:hover {
+li .task-actions button:hover {
   background: #005f73;
 }
 
-li button:nth-of-type(2) {
+
+
+li .task-actions button:first-of-type {
   background: #f44336;
   color: #fff;
 }
 
-li button:nth-of-type(2):hover {
+li .task-actions button:first-of-type:hover {
   background: #ba000d;
 }
 
@@ -654,6 +678,38 @@ li button:nth-of-type(2):hover {
   #taskList {
     max-height: 300px;
   }
+  
+  li {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  li .task-actions,
+  li input[type="checkbox"],
+  li .task-deadline,
+  li .task-name {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  li .task-actions {
+    justify-content: center;
+  }
+
+  li .task-name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  li .task-deadline {
+    color: gray;
+    font-size: 13px;
+  }
+
+  li input[type="checkbox"] {
+    justify-self: center;
+  }
 
   #themeToggle {
     top: 5px;
@@ -666,10 +722,10 @@ li button:nth-of-type(2):hover {
 /* Medium screens (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
   .container {
-    width: 90%;
-    max-width: 600px;
+    padding: 15px;
+    border-radius: 0;
+    box-shadow: none;
   }
-
   .success-message {
     width: 70%;
   }
@@ -711,6 +767,36 @@ li button:nth-of-type(2):hover {
 
   #taskList {
     max-height: 350px;
+  }
+  
+ li {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right;
+  }
+
+  li .task-actions {
+    order: 1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  li input[type="checkbox"] {
+    order: 2;
+    margin-right: 0;
+  }
+
+  li .task-deadline {
+    order: 3;
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  li .task-name {
+    order: 4;
+    width: 100%;
+    text-align: right;
   }
 }
 
