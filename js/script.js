@@ -117,13 +117,26 @@ function addTask() {
         showSuccessMessage("خطأ: يجب إدخال مهمة تحتوي على ثلاثة أحرف على الأقل", "#f44336");
         return;
     }
+
     if (!task.match(/[a-zA-Z\u0600-\u06FF]/)) {
         showSuccessMessage("خطأ: يجب إدخال مهمة تحتوي على أحرف غير رموز", "#f44336");
         return;
     }
+
     if (tasks.some(t => t.task === task)) {
         showSuccessMessage("خطأ: المهمة موجودة بالفعل في القائمة", "#f44336");
         return;
+    }
+
+    // التحقق من أن التاريخ ليس في الماضي
+    if (deadline) {
+        const now = new Date();
+        const selected = new Date(deadline);
+        if (selected < now) {
+            showSuccessMessage("⚠️ لا يمكن تعيين موعد نهائي في الماضي. اختر تاريخًا مستقبليًا.", "#f44336");
+            deadlineInput.focus();
+            return;
+        }
     }
 
     const now = new Date();
@@ -136,6 +149,7 @@ function addTask() {
         priority,
         deadline: deadline || null
     });
+
     tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     saveTasks();
@@ -149,6 +163,7 @@ function addTask() {
     deadlineInput.value = "";
     taskInput.focus();
 }
+
 
 // === تعديل مهمة ===
 function editTask(index, listItem) {

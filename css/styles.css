@@ -1,824 +1,766 @@
+/* === CSS Variables for Light and Dark Themes === */
+:root {
+  --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-arabic: 'Droid Arabic Naskh', Arial, sans-serif;
+
+  /* Light Theme Colors */
+  --bg-body: #f2f2f2;
+  --text-body: #333;
+  --container-bg: #fff;
+  --container-shadow: rgba(0, 0, 0, 0.2);
+  --border-color: #ccc;
+  --input-bg: #f2f2f2;
+  --input-outline: #333;
+  --button-bg: #333;
+  --button-color: #fff;
+  --button-hover-bg: #555;
+
+  --priority-high-border: #e53935;
+  --priority-high-bg: #fdecea;
+  --priority-medium-border: #fbc02d;
+  --priority-medium-bg: #fff9e1;
+  --priority-low-border: #43a047;
+  --priority-low-bg: #e8f5e9;
+
+  --border-radius: 8px;
+  --padding-base: 10px;
+  --font-size-base: 14px;
+  --transition-fast: 0.3s ease;
+}
+
+html.dark-theme {
+  --bg-body: #0e0f1a;
+  --text-body: #d6d9e0;
+  --container-bg: #1a1c2c;
+  --container-shadow: rgba(0, 0, 0, 0.6);
+  --border-color: #2c2f4a;
+  --input-bg: #2a2d3e;
+  --input-outline: #6ba4ff;
+  --button-bg: #273048;
+  --button-color: #fff;
+  --button-hover-bg: #3a4565;
+
+  --priority-high-border: #ff6b6b;
+  --priority-high-bg: #3a1c1c;
+  --priority-high-text: #ffcdd2;
+  --priority-medium-border: #ffd166;
+  --priority-medium-bg: #3a341c;
+  --priority-medium-text: #fff8e1;
+  --priority-low-border: #6bff95;
+  --priority-low-bg: #1c3a2c;
+  --priority-low-text: #c8facc;
+}
+
 /* === Reset and Base Styles === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Droid Arabic Naskh', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-arabic);
 }
 
 body {
-    background-color: #f2f2f2;
-    overflow: hidden;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  background-color: var(--bg-body);
+  color: var(--text-body);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-base);
 }
 
 /* === Container === */
-
 .container {
-    max-width: 800px;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    /* أو fixed */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    /* يتناسب مع حجم الشاشة */
-    box-sizing: border-box;
-    border-radius: 8px;
-    /* لمسة جمالية */
-    max-height: 90vh;
-    /* يمنع تجاوز ارتفاع الشاشة */
-    overflow-y: auto;
-    /* إذا زادت المحتويات يظهر شريط تمرير عمودي */
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  padding: 20px;
+  background: var(--container-bg);
+  box-shadow: 0 0 10px var(--container-shadow);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--border-radius);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* === Priority Styles === */
+li.priority-high,
+li.priority-medium,
+li.priority-low {
+  border-left: 6px solid;
+  color: inherit;
 }
 
 
-/* === Priority Styles for Tasks === */
 li.priority-high {
-    border-left: 6px solid #e53935;
-    /* أحمر لعاجل */
-    background-color: #fdecea;
+  border-color: var(--priority-high-border);
+  background-color: var(--priority-high-bg);
+  color: inherit;
 }
 
 li.priority-medium {
-    border-left: 6px solid #fbc02d;
-    /* أصفر لمتوسط */
-    background-color: #fff9e1;
+  border-color: var(--priority-medium-border);
+  background-color: var(--priority-medium-bg);
+  color: inherit;
 }
 
 li.priority-low {
-    border-left: 6px solid #43a047;
-    /* أخضر لمنخفض */
-    background-color: #e8f5e9;
+  border-color: var(--priority-low-border);
+  background-color: var(--priority-low-bg);
+  color: inherit;
 }
 
-/* === Deadline Input Styling === */
-input[type="datetime-local"] {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    outline-color: #333;
-    background-color: #f2f2f2;
-    transition: border-color 0.3s ease;
-    min-width: 180px;
+
+html.dark-theme body li.priority-high {
+  border-left: 4px solid var(--priority-high-border);
+  background-color: var(--priority-high-bg);
+  color: var(--priority-high-text); /* نص وردي فاتح */
 }
 
-input[type="datetime-local"]:focus {
-    border-color: #333;
+html.dark-theme body li.priority-medium {
+  border-left: 4px solid var(--priority-medium-border);
+  background-color: var(--priority-medium-bg);
+  color: var(--priority-medium-text); /* نص أصفر فاتح */
 }
 
-/* === Priority Select Styling === */
+html.dark-theme body li.priority-low {
+  border-left: 4px solid var(--priority-low-border);
+  background-color: var(--priority-low-bg);
+  color: var(--priority-low-text); /* نص أخضر فاتح */
+}
+
+/* === Inputs === */
+input[type="datetime-local"],
 select#priorityInput {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    outline-color: #333;
-    background-color: #f2f2f2;
-    min-width: 120px;
-    cursor: pointer;
+  padding: var(--padding-base);
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size-base);
+  outline-color: var(--input-outline);
+  background-color: var(--input-bg);
+  transition: border-color var(--transition-fast);
+  min-width: 180px;
+  color: inherit;
+  cursor: pointer;
 }
 
+select#priorityInput {
+  min-width: 120px;
+}
+
+input[type="datetime-local"]:focus,
 select#priorityInput:focus {
-    border-color: #333;
+  border-color: var(--input-outline);
+  outline: none;
 }
 
 /* === Theme Toggle Button === */
 #themeToggle {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 11000;
-    transition: background-color 0.3s ease;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: var(--button-bg);
+  color: var(--button-color);
+  border: none;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 11000;
+  transition: background-color var(--transition-fast);
 }
 
 #themeToggle:hover {
-    background-color: #555;
+  background-color: var(--button-hover-bg);
 }
 
-/* === Completion Rate Text Styling === */
+/* === Completion Rate Text === */
 #completionRate {
-    font-size: 14px;
-    font-weight: 700;
-    color: #4caf50;
-    margin-left: 10px;
-    user-select: none;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: #4caf50;
+  margin-left: 10px;
+  user-select: none;
 }
 
-/* === Dark Theme Styles === */
-html.dark-theme body {
-    background-color: #0e0f1a;
-    /* أزرق رمادي داكن */
-    color: #d6d9e0;
-    /* رمادي فاتح */
+/* === Dark Theme Overrides === */
+html.dark-theme li {
+  background-color: #222637;
+  box-shadow: 0 1px 4px rgba(255 255 255 / 0.05);
+  border: 1px solid #2f334b;
+  transition: background-color var(--transition-fast);
 }
 
-html.dark-theme body .container {
-    background-color: #1a1c2c;
-    /* خلفية أكثر نعومة */
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-    border: 1px solid #2c2f4a;
+html.dark-theme li.completed span {
+  color: #7d8899 !important;
+  text-decoration-color: #5f6b80;
 }
 
-html.dark-theme body input[type="text"],
-html.dark-theme body input[type="search"],
-html.dark-theme body input[type="datetime-local"],
-html.dark-theme body select#priorityInput {
-    background-color: #2a2d3e;
-    color: #f0f0f0;
-    border: 1px solid #444a63;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+html.dark-theme #taskList::-webkit-scrollbar-track {
+  background: var(--container-bg);
 }
 
-html.dark-theme body input[type="text"]:focus,
-html.dark-theme body input[type="search"]:focus,
-html.dark-theme body input[type="datetime-local"]:focus,
-html.dark-theme body select#priorityInput:focus {
-    border-color: #6ba4ff;
-    background-color: #323752;
-    outline: none;
+html.dark-theme #taskList::-webkit-scrollbar-thumb {
+  background: #444a63;
 }
 
-html.dark-theme body button,
-html.dark-theme body #themeToggle {
-    background-color: #273048;
-    color: #ffffff;
-    border: 1px solid #3a4565;
+/* === Confirmation Modal & Messages === */
+.custom-confirmation,
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  z-index: 9999;
 }
 
-html.dark-theme body button:hover,
-html.dark-theme body #themeToggle:hover {
-    background-color: #3a4565;
+.custom-confirmation.show,
+#modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-html.dark-theme body li {
-    background-color: #222637;
-    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.05);
-    color: #f0f0f0;
-    border: 1px solid #2f334b;
-    transition: background-color 0.3s ease;
-}
-
-html.dark-theme body li.completed span {
-    color: #7d8899 !important;
-    text-decoration-color: #5f6b80;
-}
-
-/* Scrollbar */
-html.dark-theme body #taskList::-webkit-scrollbar-track {
-    background: #1a1c2c;
-}
-
-html.dark-theme body #taskList::-webkit-scrollbar-thumb {
-    background: #444a63;
-}
-
-/* أولويات المهام في الوضع الليلي */
-html.dark-theme body li.priority-high {
-    border-left: 4px solid #ff6b6b;
-    background-color: #3a1c1c;
-}
-
-html.dark-theme body li.priority-medium {
-    border-left: 4px solid #ffd166;
-    background-color: #3a341c;
-}
-
-html.dark-theme body li.priority-low {
-    border-left: 4px solid #6bff95;
-    background-color: #1c3a2c;
-}
-
-
-/* === Confirmation and other existing styles === */
-
-.custom-confirmation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 9999;
-}
-
-.confirm-content {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 320px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
-}
-
-.confirm-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.confirm-buttons button {
-    padding: 8px 18px;
-    font-size: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.confirm-yes {
-    background-color: #4caf50;
-    color: white;
-}
-
-.confirm-yes:hover {
-    background-color: #45a049;
-}
-
-.confirm-no {
-    background-color: #f44336;
-    color: white;
-}
-
-.confirm-no:hover {
-    background-color: #da190b;
-}
-
-/* نافذة التأكيد */
+.confirm-content,
 .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    width: 320px;
-    max-width: 90%;
-    padding: 20px;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--container-bg);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  max-width: 320px;
+  width: 90%;
+  font-family: var(--font-base);
+  text-align: center;
+  font-size: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
 .modal.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .modal-content h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
 .modal-content p {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
 }
 
+.confirm-buttons,
 .modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
+.confirm-buttons button,
 .btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.25s ease;
+  padding: 8px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
+.confirm-yes,
 .btn-yes {
-    background-color: #4caf50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
+.confirm-yes:hover,
 .btn-yes:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
+.confirm-no,
 .btn-no {
-    background-color: #f44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
 
+.confirm-no:hover,
 .btn-no:hover {
-    background-color: #da190b;
+  background-color: #da190b;
 }
 
-#modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-#modal-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* رسائل التنبيه */
+/* === Success and Error Messages === */
 .success-message {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 20px 67px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.5s ease;
-    opacity: 0;
-    z-index: 11000;
-    max-width: 95%;
-    text-align: center;
-    user-select: none;
-    pointer-events: none
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 67px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-family: var(--font-base);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  z-index: 11000;
+  max-width: 95%;
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
 }
 
-/* رسالة نجاح - خلفية خضراء ونص داكن */
 .success-message.success {
-    background-color: #74ef91;
-    color: #222;
+  background-color: #74ef91;
+  color: #222;
 }
 
-/* رسالة خطأ أو تحذير - خلفية حمراء ونص أبيض */
 .success-message.error {
-    background-color: #f44336;
-    color: #fff;
+  background-color: #f44336;
+  color: #fff;
 }
 
 /* === Header === */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row-reverse;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 h1 {
-    font-size: 36px;
-    color: #333;
+  font-size: 36px;
+  color: var(--text-body);
 }
 
 .Count {
-    background: #333;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 15px;
-    border-radius: 6px;
-    user-select: none;
+  background: #333;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  user-select: none;
 }
 
 .Count span:first-child {
-    color: orange;
+  color: orange;
 }
 
 /* === Form === */
 form {
-    display: flex;
-    margin-bottom: 20px;
-    gap: 5px;
-    justify-content: flex-end
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-bottom: 20px;
 }
 
 input[type="text"],
 input[type="search"] {
-    flex: 1;
-    max-width: 250px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #f2f2f2;
-    outline-color: #333;
-    font-size: 16px;
+  flex: 1;
+  max-width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: var(--input-bg);
+  outline-color: var(--input-outline);
+  font-size: 16px;
+  color: inherit;
 }
 
 input[type="search"] {
-    display: none
+  display: none;
 }
 
 button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background: #333;
-    color: #fff;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: var(--button-bg);
+  color: var(--button-color);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background: #555;
+  background: var(--button-hover-bg);
 }
 
 /* === Task List === */
 #taskList {
-    list-style: none;
-    max-height: 400px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    padding: 0;
+  list-style: none;
+  max-height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 0;
 }
 
 #taskList::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 #taskList::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 #taskList::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 10px;
+  background: var(--button-bg);
+  border-radius: 10px;
 }
 
 #taskList::-webkit-scrollbar-thumb:hover {
-    background: #888;
+  background: #888;
 }
 
 /* === Task Items === */
 li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f2f2f2;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--input-bg);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  color: inherit;
 }
 
 li span {
-    font-size: 15px;
-    color: #333;
-    flex: 1;
-    transition: opacity 0.2s ease-in-out;
-    display: inline-block;
+  font-size: 15px;
+  flex: 1;
+  transition: opacity 0.2s ease-in-out;
+  display: inline-block;
 }
 
 li span.rtl {
-    direction: rtl;
+  direction: rtl;
 }
 
 li.completed span {
-    text-decoration: line-through double;
-    color: gray !important;
+  text-decoration: line-through double;
+  color: gray !important;
 }
 
+/* Checkbox styles */
 li input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #333;
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    margin-right: 10px;
-    transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--text-body);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: inherit;
 }
 
 li input[type="checkbox"]:checked {
-    background-color: #333;
-    border-color: #333;
+  background-color: var(--button-bg);
+  border-color: var(--button-bg);
 }
 
 li input[type="checkbox"]:checked::before {
-    content: '✔';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 14px;
-    line-height: 1;
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--button-color);
+  font-size: 14px;
+  line-height: 1;
 }
 
-/* === Buttons in task items === */
+/* Buttons inside task items */
 li button {
-    margin-left: 5px;
-    padding: 5px 10px;
-    font-size: 13px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
 }
 
 li button:first-of-type {
-    background: #008CBA;
-    color: #fff;
+  background: #008CBA;
+  color: #fff;
 }
 
 li button:first-of-type:hover {
-    background: #005f73;
+  background: #005f73;
 }
 
 li button:nth-of-type(2) {
-    background: #f44336;
-    color: #fff;
+  background: #f44336;
+  color: #fff;
 }
 
 li button:nth-of-type(2):hover {
-    background: #ba000d;
+  background: #ba000d;
 }
 
 /* === Box with extra buttons === */
 .box {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .box button,
 .box input[type="search"] {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 #cancelBtn {
-    display: none;
+  display: none;
 }
 
-/* === Matched text highlight === */
+/* === Matched Text Highlight === */
 .matched-text {
-    background-color: yellow;
+  background-color: yellow;
 }
 
-/* === Confirmation dialog === */
+/* === Confirmation Dialog === */
 .confirmation {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    width: 85%;
-    max-width: 500px;
-    text-align: center;
-    z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--container-bg);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  width: 85%;
+  max-width: 500px;
+  text-align: center;
+  z-index: 1000;
 }
 
 .confirmation p {
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .confirmation button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 0 10px;
-    transition: background-color 0.4s;
-    width: 65px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: background-color 0.4s;
+  width: 65px;
 }
 
 .confirmation button.yes {
-    background-color: red;
-    color: #fff;
+  background-color: red;
+  color: #fff;
 }
 
 .confirmation button.no {
-    background-color: blue;
-    color: #fff;
+  background-color: blue;
+  color: #fff;
 }
 
 .confirmation button:hover {
-    background-color: #fff;
-    color: blue;
+  background-color: #fff;
+  color: blue;
 }
 
 /* === Responsive Styles === */
 
-/* هواتف صغيرة (أقل من 480px) */
+/* Small phones (<480px) */
 @media (max-width: 479px) {
-    body {
-        padding: 10px;
-        overflow-y: auto;
-        height: auto;
-    }
+  body {
+    padding: 10px;
+    overflow-y: auto;
+    height: auto;
+  }
 
-    .container {
-        position: static;
-        transform: none;
-        width: 100%;
-        max-width: 100%;
-        max-height: none;
-        padding: 15px;
-        box-shadow: none;
-        border-radius: 0;
-    }
+  .container {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+    padding: 15px;
+    box-shadow: none;
+    border-radius: 0;
+  }
 
-    .success-message {
-        width: 90%
-    }
+  .success-message {
+    width: 90%;
+  }
 
-    form {
-        flex-direction: column;
-        gap: 10px;
-    }
+  form {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .task-deadline {
-        display: none;
-    }
+  .task-deadline {
+    display: none;
+  }
 
+  input[type="text"],
+  select#priorityInput,
+  input[type="datetime-local"],
+  button#addBtn {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+  }
 
-    input[type="text"],
-    select#priorityInput,
-    input[type="datetime-local"],
-    button#addBtn {
-        width: 100%;
-        max-width: 100%;
-        font-size: 16px;
-    }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
 
-    h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
+  .Count {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
 
-    .Count {
-        font-size: 14px;
-        padding: 4px 8px;
-    }
+  .box {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .box {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .box button,
+  .box input[type="search"] {
+    flex-grow: 0;
+    width: 100%;
+  }
 
-    .box button,
-    .box input[type="search"] {
-        flex-grow: 0;
-        width: 100%;
-    }
+  #taskList {
+    max-height: 300px;
+  }
 
-    #taskList {
-        max-height: 300px;
-    }
+  #themeToggle {
+    top: 5px;
+    left: 5px;
+    padding: 8px 12px;
+    font-size: 18px;
+  }
 }
 
-/* شاشات متوسطة (تابليت 480px إلى 767px) */
+/* Medium screens (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
-    .container {
-        width: 90%;
-        max-width: 600px;
-    }
+  .container {
+    width: 90%;
+    max-width: 600px;
+  }
 
-    .success-message {
-        width: 70%
-    }
+  .success-message {
+    width: 70%;
+  }
 
-    form {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+  form {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-    input[type="text"] {
-        flex: 1 1 60%;
-        min-width: 60%;
-    }
+  input[type="text"] {
+    flex: 1 1 60%;
+    min-width: 60%;
+  }
 
+  select#priorityInput,
+  input[type="datetime-local"],
+  button#addBtn {
+    flex: 1 1 18%;
+    min-width: 18%;
+  }
 
-    select#priorityInput,
-    input[type="datetime-local"] {
-        flex: 1 1 18%;
-        min-width: 18%;
-    }
+  .header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
-    button#addBtn {
-        flex: 1 1 18%;
-        min-width: 18%;
-    }
+  h1 {
+    font-size: 32px;
+  }
 
-    .header {
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
+  .Count {
+    font-size: 15px;
+    padding: 5px 10px;
+  }
 
-    h1 {
-        font-size: 32px;
-    }
+  .box {
+    gap: 10px;
+  }
 
-    .Count {
-        font-size: 15px;
-        padding: 5px 10px;
-    }
-
-    .box {
-        gap: 10px;
-    }
-
-    #taskList {
-        max-height: 350px;
-    }
+  #taskList {
+    max-height: 350px;
+  }
 }
 
-/* شاشات كبيرة (ديسكتوب 768px فما فوق) */
+/* Large screens (>=768px) */
 @media (min-width: 768px) {
-    .container {
-        max-width: 800px;
-    }
+  .container {
+    max-width: 800px;
+  }
 
-    form {
-        flex-wrap: nowrap;
-        gap: 5px;
-    }
+  form {
+    flex-wrap: nowrap;
+    gap: 5px;
+  }
 
-    input[type="text"] {
-        max-width: 250px;
-        flex-grow: 1;
-    }
+  input[type="text"] {
+    max-width: 250px;
+    flex-grow: 1;
+  }
 
-    select#priorityInput,
-    input[type="datetime-local"],
-    button#addBtn {
-        max-width: none;
-        flex-grow: 0;
-        width: auto;
-    }
+  select#priorityInput,
+  input[type="datetime-local"],
+  button#addBtn {
+    max-width: none;
+    flex-grow: 0;
+    width: auto;
+  }
 
-    .header {
-        flex-direction: row-reverse;
-        align-items: center;
-    }
+  .header {
+    flex-direction: row-reverse;
+    align-items: center;
+  }
 
-    h1 {
-        font-size: 36px;
-    }
+  h1 {
+    font-size: 36px;
+  }
 
-    .Count {
-        font-size: 15px;
-    }
+  .Count {
+    font-size: 15px;
+  }
 
-    .box {
-        justify-content: flex-start;
-    }
+  .box {
+    justify-content: flex-start;
+  }
 
-    #taskList {
-        max-height: 400px;
-    }
-}
+  #taskList {
+    max-height: 400px;
+  }
 
-/* تحسين زر تبديل الوضع الليلي ليكون واضحًا على جميع الشاشات */
-#themeToggle {
+  #themeToggle {
     font-size: 20px;
     padding: 10px 14px;
-}
-
-@media (max-width: 479px) {
-    #themeToggle {
-        top: 5px;
-        left: 5px;
-        padding: 8px 12px;
-        font-size: 18px;
-    }
+  }
 }
