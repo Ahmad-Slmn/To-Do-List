@@ -662,25 +662,102 @@ li .task-actions button:first-of-type:hover {
 
 /* === Box with Extra Buttons === */
 .box {
-    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
+    justify-content: end;
+    margin-top: 20px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
 
 .box button,
-.box input[type="search"] {
-    flex-grow: 1;
+.box input[type="search"],
+.box select {
+    flex: 1 1 140px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: 0.3s ease;
 }
 
-#cancelBtn {
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    width: 100%;
+    padding-right: 30px;
+}
+
+#clearSearchBtn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    display: none;
+    transition: color 0.2s ease;
+}
+
+#clearSearchBtn:hover {
+    color: #333;
+}
+
+#matchCount {
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #fffde7;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #333;
+    margin-inline-start: auto;
     display: none;
 }
 
-/* === Matched Text Highlight === */
+/* البحث */
 .matched-text {
-    background-color: yellow;
+    background: linear-gradient(90deg, #fffa72, #ffeb3b);
+    color: #222;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 0 3px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
 }
+
+.rtl {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+.no-results-message {
+    color: #b71c1c;
+    /* لون أحمر داكن */
+    background-color: #ffebee;
+    /* خلفية وردية فاتحة */
+    border: 1px solid #f44336;
+    /* حد أحمر */
+    border-radius: 8px;
+    padding: 20px 15px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+    margin: 20px auto;
+    max-width: 400px;
+    user-select: none;
+}
+
 
 /* === Confirmation Dialog === */
 .confirmation {
@@ -756,6 +833,23 @@ li .task-actions button:first-of-type:hover {
     form {
         flex-direction: column;
         gap: 10px;
+    }
+
+    .box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .box button,
+    .box input[type="search"],
+    .box select {
+        flex: 1 1 100%;
+        font-size: 16px;
+    }
+
+    #matchCount {
+        align-self: flex-start;
+        margin-top: 5px;
     }
 
     .task-deadline {
@@ -940,10 +1034,6 @@ li .task-actions button:first-of-type:hover {
 
     .Count {
         font-size: 15px;
-    }
-
-    .box {
-        justify-content: flex-start;
     }
 
     #taskList {

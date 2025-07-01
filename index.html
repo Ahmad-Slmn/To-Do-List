@@ -69,11 +69,26 @@
 
         <!-- أدوات إضافية -->
         <section class="box">
-            <button id="clearAllBtn">حذف جميع المهام</button>
-            <input id="searchInput" type="search" placeholder="ابحث عن مهمة" />
-            <button id="searchBtn" type="button">بحث</button>
-            <button id="cancelBtn" type="button" style="display:none;">إلغاء البحث</button>
+            <button id="clearAllBtn">🗑️ حذف جميع المهام</button>
+
+            <div class="search-wrapper">
+                <input id="searchInput" type="search" placeholder="🔍 ابحث عن مهمة" style="display: none;" />
+                <button id="clearSearchBtn" type="button" style="display: none;"></button>
+            </div>
+            <button id="searchBtn" type="button">🔎 بحث</button>
+            <button id="cancelBtn" type="button" style="display: none;">❌ إلغاء البحث</button>
+            <select id="statusFilter" style="display: none;">
+                <option value="all">كل الحالات</option>
+                <option value="completed">المكتملة</option>
+                <option value="pending">غير المكتملة</option>
+            </select>
+
+
+
+            <div id="matchCount" style="display: none;">عدد النتائج: 0</div>
         </section>
+
+
     </main>
 
     <script src="js/script.js"></script>

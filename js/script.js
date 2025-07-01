@@ -64,7 +64,7 @@ function displayTasks(filteredTasks = null) {
         taskDeadline.className = "task-deadline";
         if (taskObj.deadline) {
             const d = new Date(taskObj.deadline);
-            taskDeadline.textContent = `${taskObj.date} → ${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+            taskDeadline.textContent = `${taskObj.date} → ${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         } else {
             taskDeadline.textContent = taskObj.date;
         }
@@ -74,7 +74,17 @@ function displayTasks(filteredTasks = null) {
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "تعديل";
-        editBtn.addEventListener("click", () => editTask(i, li));
+
+        if (taskObj.completed) {
+            // لا نمنع الزر بل نظهر رسالة عند النقر
+            editBtn.style.opacity = "0.5";
+            editBtn.title = "لا يمكن تعديل مهمة تم تنفيذها";
+            editBtn.addEventListener("click", () => {
+                showSuccessMessage("لا يمكن تعديل مهمة تم تنفيذها", "#f44336");
+            });
+        } else {
+            editBtn.addEventListener("click", () => editTask(i, li));
+        }
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "حذف";
@@ -85,6 +95,7 @@ function displayTasks(filteredTasks = null) {
         taskList.appendChild(li);
     });
 }
+
 
 // === تبديل حالة الإتمام ===
 function toggleTaskCompletion(index) {
@@ -257,53 +268,147 @@ function showSuccessMessage(text, bgColor = "#74ef91") {
 }
 
 // === البحث ===
+function removeDiacritics(text) {
+    const arabicDiacritics = /[\u0617-\u061A\u064B-\u0652]/g;
+    return text.normalize('NFD').replace(arabicDiacritics, '');
+}
+
+function updateMatchCount(count) {
+    const matchCount = document.getElementById('matchCount');
+    if (matchCount) matchCount.textContent = `عدد النتائج: ${count}`;
+}
+
 function searchTasks() {
     if (tasks.length < 3) {
         showSuccessMessage("لا يمكن البحث، يجب وجود 3 مهام على الأقل!", "#f44336");
         return;
     }
-    cancelBtn.style.display = "inline-block";
-    searchBtn.style.display = "none";
+
+    // إظهار عناصر البحث فقط
     searchInput.style.display = "inline-block";
+    statusFilter.style.display = "inline-block";
+    clearSearchBtn.style.display = "none";
+    cancelBtn.style.display = "inline-block";
+    matchCount.style.display = "inline-block";
+
+    // إخفاء العناصر الأخرى
+    searchBtn.style.display = "none";
     clearAllBtn.style.display = "none";
     searchInput.focus();
 
-    searchInput.oninput = () => {
-        const text = searchInput.value.trim().toLowerCase();
-        const filtered = tasks.filter(t => t.task.toLowerCase().startsWith(text));
+    function filterAndDisplay() {
+        const rawText = searchInput.value.trim();
+        const text = removeDiacritics(rawText.toLowerCase());
+        const status = statusFilter.value;
 
-        if (filtered.length === 0) {
-            taskList.innerHTML = `<p style="color:red; text-align:center; padding:30px;">لا يوجد مهام تتطابق مع البحث</p>`;
-        } else {
-            displayTasks(filtered);
+        if (!text && status === "all") {
+            displayTasks(tasks);
+            highlightSearchMatches('');
+            updateMatchCount(0); // لا عرض افتراضي للعدد
+            clearSearchBtn.style.display = 'none';
+            return;
         }
 
-        highlightSearchMatches(text);
+
+        clearSearchBtn.style.display = rawText ? 'inline-block' : 'none';
+
+        const filtered = tasks.filter(t => {
+            const taskText = removeDiacritics(t.task.toLowerCase());
+
+            if (status === 'completed' && !t.completed) return false;
+            if (status === 'pending' && t.completed) return false;
+
+            return taskText.includes(text);
+        });
+
+        if (filtered.length === 0) {
+            taskList.innerHTML = `
+    <div class="no-results-message">
+      لا يوجد مهام تتطابق مع البحث
+    </div>
+  `;
+            updateMatchCount(0);
+        } else {
+            displayTasks(filtered);
+            highlightSearchMatches(rawText);
+            updateMatchCount(filtered.length);
+        }
+    }
+
+    searchInput.oninput = filterAndDisplay;
+    statusFilter.onchange = filterAndDisplay;
+
+    clearSearchBtn.onclick = () => {
+        searchInput.value = '';
+        filterAndDisplay();
+        searchInput.focus();
     };
+
+    // تنفيذ فوري عند بدء البحث
+    filterAndDisplay();
 }
 
-// === تمييز البحث ===
 function highlightSearchMatches(text) {
+    if (!text) {
+        taskList.querySelectorAll("li .task-name").forEach(span => {
+            span.textContent = span.textContent;
+            span.classList.remove("rtl");
+        });
+        updateMatchCount(0);
+        return;
+    }
+
+    const cleanText = removeDiacritics(text.trim());
+    const words = cleanText.split(/\s+/).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
     taskList.querySelectorAll("li .task-name").forEach(span => {
-        const name = span.textContent.toLowerCase();
-        const index = name.indexOf(text);
-        if (index !== -1 && text) {
-            span.innerHTML = `${span.textContent.slice(0, index)}<span class="matched-text">${span.textContent.slice(index, index + text.length)}</span>${span.textContent.slice(index + text.length)}`;
+        const originalText = span.textContent;
+        let modifiedText = originalText;
+        let matchFound = false;
+
+        words.forEach(word => {
+            if (!word) return;
+
+            const cleanOriginal = removeDiacritics(originalText);
+            const index = cleanOriginal.toLowerCase().indexOf(word.toLowerCase());
+
+            if (index !== -1) {
+                matchFound = true;
+                modifiedText =
+                    modifiedText.substring(0, index) +
+                    `<span class="matched-text">` +
+                    modifiedText.substring(index, index + word.length) +
+                    `</span>` +
+                    modifiedText.substring(index + word.length);
+            }
+        });
+
+        if (matchFound) {
+            span.innerHTML = modifiedText;
             span.classList.toggle("rtl", /\p{Script=Arabic}/u.test(text));
         } else {
-            span.textContent = span.textContent;
+            span.textContent = originalText;
             span.classList.remove("rtl");
         }
     });
+
+    const totalMatches = taskList.querySelectorAll(".matched-text").length;
+    updateMatchCount(totalMatches);
 }
 
-// === إلغاء البحث ===
 function cancelSearch() {
-    searchInput.value = "";
+    // إخفاء عناصر البحث
     searchInput.style.display = "none";
+    statusFilter.style.display = "none";
+    clearSearchBtn.style.display = "none";
     cancelBtn.style.display = "none";
+    matchCount.style.display = "none";
+
+    // إظهار العناصر الأساسية
     searchBtn.style.display = "inline-block";
     clearAllBtn.style.display = "inline-block";
+
+    searchInput.value = "";
     displayTasks();
     updateTaskCount();
 }
