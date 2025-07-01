@@ -98,12 +98,10 @@ function displayTasks(filteredTasks = null) {
 actionContainer.appendChild(deleteBtn);
         actionContainer.appendChild(editBtn);
         
-
-        // ← ترتيب العناصر داخل li حسب الطلب:
-        li.appendChild(actionContainer);  // ← أزرار التحكم على أقصى اليمين
-        li.appendChild(checkbox);         // ← التشييك
-        li.appendChild(taskDeadline);     // ← التاريخ في المنتصف
-        li.appendChild(taskName);         // ← اسم المهمة في أقصى اليسار
+        li.appendChild(taskName);
+        li.appendChild(taskDeadline);
+        li.appendChild(checkbox);
+        li.appendChild(actionContainer); 
 
         taskList.appendChild(li);
     });
@@ -180,12 +178,16 @@ function addTask() {
 function editTask(index, listItem) {
     const oldTaskObj = tasks[index];
 
+    // إنشاء الحاوية الجديدة للتعديل
+    const editContainer = document.createElement("div");
+    editContainer.className = "edit-container";
+
     const inputTask = document.createElement("input");
     inputTask.type = "text";
     inputTask.value = oldTaskObj.task;
 
     const selectPriority = document.createElement("select");
-  ["high", "medium", "low"].forEach(p => {
+    ["high", "medium", "low"].forEach(p => {
         const option = document.createElement("option");
         option.value = p;
         option.textContent = p === "high" ? "عاجل" : p === "medium" ? "متوسط" : "منخفض";
@@ -205,14 +207,19 @@ function editTask(index, listItem) {
     const cancelBtn = document.createElement("button");
     cancelBtn.textContent = "إلغاء التعديل";
 
-    listItem.innerHTML = "";
-    listItem.appendChild(inputTask);
-    listItem.appendChild(selectPriority);
-    listItem.appendChild(inputDeadline);
-    listItem.appendChild(saveBtn);
-    listItem.appendChild(cancelBtn);
+    // تجميع كل العناصر داخل الحاوية
+    editContainer.appendChild(inputTask);
+    editContainer.appendChild(selectPriority);
+    editContainer.appendChild(inputDeadline);
+    editContainer.appendChild(saveBtn);
+    editContainer.appendChild(cancelBtn);
 
+    listItem.innerHTML = "";              // تفريغ المهمة القديمة
+    listItem.appendChild(editContainer);  // إضافة الحاوية الجديدة
     inputTask.focus();
+
+    // تفعيل التأثير بعد إدخال العنصر DOM
+    setTimeout(() => editContainer.classList.add("show"), 10);
 
     saveBtn.onclick = () => {
         const newTask = inputTask.value.trim();
@@ -259,12 +266,19 @@ function editTask(index, listItem) {
         saveTasks();
         displayTasks();
         updateTaskCount();
-
         showSuccessMessage("!تم تعديل المهمة بنجاح");
     };
 
-    cancelBtn.onclick = () => displayTasks();
+    // ⬇️ تأثير عند الإلغاء
+    cancelBtn.onclick = () => {
+        editContainer.classList.remove("show");
+        setTimeout(() => {
+            displayTasks();
+        }, 300); // تطابق مدة transition في CSS
+    };
 }
+
+
 
 // === حذف مهمة ===
 function deleteTask(index) {
