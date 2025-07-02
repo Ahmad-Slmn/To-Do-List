@@ -278,6 +278,9 @@ function updateMatchCount(count) {
     if (matchCount) matchCount.textContent = `عدد النتائج: ${count}`;
 }
 
+let recognition; // تعريف عام لاستخدامه في الإلغاء
+let listeningIndicator;
+
 function searchTasks() {
     if (tasks.length < 3) {
         showSuccessMessage("لا يمكن البحث، يجب وجود 3 مهام على الأقل!", "#f44336");
@@ -286,10 +289,12 @@ function searchTasks() {
 
     // إظهار عناصر البحث فقط
     searchInput.style.display = "inline-block";
-    statusFilter.style.display = "inline-block";
+    document.getElementById('statusFilterGroup').style.display = "inline-block";
+    document.getElementById('matchModeGroup').style.display = "inline-block";
     clearSearchBtn.style.display = "none";
     cancelBtn.style.display = "inline-block";
     matchCount.style.display = "inline-block";
+    voiceSearchBtn.style.display = "inline-block";
 
     // إخفاء العناصر الأخرى
     searchBtn.style.display = "none";
@@ -298,19 +303,20 @@ function searchTasks() {
 
     function filterAndDisplay() {
         const rawText = searchInput.value.trim();
-        const text = removeDiacritics(rawText.toLowerCase());
         const status = statusFilter.value;
+        const mode = matchMode.value;
 
-        if (!text && status === "all") {
+        if (!rawText && status === "all") {
             displayTasks(tasks);
             highlightSearchMatches('');
-            updateMatchCount(0); // لا عرض افتراضي للعدد
+            updateMatchCount(0);
             clearSearchBtn.style.display = 'none';
             return;
         }
 
-
         clearSearchBtn.style.display = rawText ? 'inline-block' : 'none';
+
+        const keywords = removeDiacritics(rawText.toLowerCase()).split(/\s+/).filter(Boolean);
 
         const filtered = tasks.filter(t => {
             const taskText = removeDiacritics(t.task.toLowerCase());
@@ -318,16 +324,23 @@ function searchTasks() {
             if (status === 'completed' && !t.completed) return false;
             if (status === 'pending' && t.completed) return false;
 
-            return taskText.includes(text);
+            if (mode === 'and') {
+                return keywords.every(kw => taskText.includes(kw));
+            } else {
+                return keywords.some(kw => taskText.includes(kw));
+            }
         });
 
         if (filtered.length === 0) {
             taskList.innerHTML = `
-    <div class="no-results-message">
-      لا يوجد مهام تتطابق مع البحث
-    </div>
-  `;
+                <div class="no-results-message">
+                    لا يوجد مهام تتطابق مع البحث
+                </div>
+            `;
             updateMatchCount(0);
+            if ('vibrate' in navigator) navigator.vibrate(200);
+            const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=');
+            audio.play();
         } else {
             displayTasks(filtered);
             highlightSearchMatches(rawText);
@@ -337,6 +350,7 @@ function searchTasks() {
 
     searchInput.oninput = filterAndDisplay;
     statusFilter.onchange = filterAndDisplay;
+    matchMode.onchange = filterAndDisplay;
 
     clearSearchBtn.onclick = () => {
         searchInput.value = '';
@@ -344,7 +358,6 @@ function searchTasks() {
         searchInput.focus();
     };
 
-    // تنفيذ فوري عند بدء البحث
     filterAndDisplay();
 }
 
@@ -359,27 +372,21 @@ function highlightSearchMatches(text) {
     }
 
     const cleanText = removeDiacritics(text.trim());
-    const words = cleanText.split(/\s+/).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const words = cleanText.split(/\s+/).filter(Boolean).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
     taskList.querySelectorAll("li .task-name").forEach(span => {
         const originalText = span.textContent;
+        const cleanOriginal = removeDiacritics(originalText);
+
         let modifiedText = originalText;
         let matchFound = false;
 
         words.forEach(word => {
             if (!word) return;
-
-            const cleanOriginal = removeDiacritics(originalText);
-            const index = cleanOriginal.toLowerCase().indexOf(word.toLowerCase());
-
-            if (index !== -1) {
+            const regex = new RegExp(`(${word})`, 'gi');
+            if (regex.test(cleanOriginal)) {
                 matchFound = true;
-                modifiedText =
-                    modifiedText.substring(0, index) +
-                    `<span class="matched-text">` +
-                    modifiedText.substring(index, index + word.length) +
-                    `</span>` +
-                    modifiedText.substring(index + word.length);
+                modifiedText = modifiedText.replace(regex, `<span class="matched-text">$1</span>`);
             }
         });
 
@@ -397,21 +404,74 @@ function highlightSearchMatches(text) {
 }
 
 function cancelSearch() {
-    // إخفاء عناصر البحث
+    // ✅ إيقاف البحث الصوتي عند الإلغاء
+    if (recognition && typeof recognition.stop === 'function') {
+        recognition.stop();
+        voiceSearchBtn.textContent = '🎤 صوتي';
+        voiceSearchBtn.disabled = false;
+        if (listeningIndicator) listeningIndicator.remove();
+    }
+
+    searchInput.value = "";
     searchInput.style.display = "none";
-    statusFilter.style.display = "none";
+    document.getElementById('statusFilterGroup').style.display = "none";
+    document.getElementById('matchModeGroup').style.display = "none";
     clearSearchBtn.style.display = "none";
     cancelBtn.style.display = "none";
     matchCount.style.display = "none";
+    voiceSearchBtn.style.display = "none";
 
-    // إظهار العناصر الأساسية
     searchBtn.style.display = "inline-block";
     clearAllBtn.style.display = "inline-block";
 
-    searchInput.value = "";
     displayTasks();
     updateTaskCount();
 }
+
+// === البحث الصوتي المحسّن ===
+const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.lang = 'ar-SA';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+        voiceSearchBtn.textContent = '🎙️ يستمع...';
+        voiceSearchBtn.disabled = true;
+
+        listeningIndicator = document.createElement('span');
+        listeningIndicator.textContent = '⏳ جاري الاستماع...';
+        listeningIndicator.style.marginRight = '10px';
+        listeningIndicator.style.color = '#1565c0';
+        listeningIndicator.style.fontWeight = 'bold';
+        voiceSearchBtn.parentNode.insertBefore(listeningIndicator, voiceSearchBtn);
+    };
+
+    recognition.onresult = e => {
+        const transcript = e.results[0][0].transcript.trim();
+        if (transcript) {
+            searchInput.value = transcript;
+            searchInput.dispatchEvent(new Event('input'));
+        }
+    };
+
+    recognition.onerror = e => {
+        alert('حدث خطأ أثناء التعرف على الصوت. الرجاء المحاولة مجددًا.');
+        console.error('Voice recognition error:', e.error);
+    };
+
+    recognition.onend = () => {
+        voiceSearchBtn.textContent = '🎤 صوتي';
+        voiceSearchBtn.disabled = false;
+        if (listeningIndicator) listeningIndicator.remove();
+    };
+
+    voiceSearchBtn.onclick = () => recognition.start();
+} else {
+    voiceSearchBtn.style.display = 'none';
+}
+
 
 // === حذف كل المهام ===
 function clearAllTasks() {

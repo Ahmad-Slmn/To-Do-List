@@ -39,12 +39,13 @@
         <header class="header">
             <!-- زر تغيير الثيم -->
             <button id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌙</button>
-            <h1>قائمة المهام</h1>
             <div class="Count">
                 <span id="taskCount"></span>
                 <span>:عدد المهام الحالية</span>
                 <span id="completionRate" style="margin-right: 10px; color: green; font-weight: bold;"></span>
             </div>
+            <h1>قائمة المهام</h1>
+
         </header>
 
         <!-- نموذج إدخال المهمة -->
@@ -77,14 +78,26 @@
             </div>
             <button id="searchBtn" type="button">🔎 بحث</button>
             <button id="cancelBtn" type="button" style="display: none;">❌ إلغاء البحث</button>
-            <select id="statusFilter" style="display: none;">
-                <option value="all">كل الحالات</option>
-                <option value="completed">المكتملة</option>
-                <option value="pending">غير المكتملة</option>
-            </select>
+            
+            <div class="label-group" id="statusFilterGroup" style="display: none;">
+                <label for="statusFilter">📋 حالة المهمة</label>
+                <select id="statusFilter">
+                    <option value="all">كل الحالات</option>
+                    <option value="completed">المكتملة</option>
+                    <option value="pending">غير المكتملة</option>
+                </select>
+            </div>
+
+            <div class="label-group" id="matchModeGroup" style="display: none;">
+                <label for="matchMode">🧮 نمط البحث</label>
+                <select id="matchMode">
+                    <option value="or">أي كلمة</option>
+                    <option value="and">كل الكلمات</option>
+                </select>
+            </div>
 
 
-
+            <button id="voiceSearchBtn" type="button" style="display: none;">🎤البحث الصوتي</button>
             <div id="matchCount" style="display: none;">عدد النتائج: 0</div>
         </section>
 
