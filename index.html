@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8" />
@@ -7,50 +7,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>قائمة المهام</title>
     <link href="https://fonts.googleapis.com/css2?family=Droid+Arabic+Naskh&display=swap" rel="stylesheet" />
+
     <script>
         (function() {
+            const savedLang = localStorage.getItem("selectedLanguage") || "ar";
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
+
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark-theme');
             }
         })();
     </script>
 
-
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="website.png" />
 </head>
 
 <body>
-    <!-- نافذة التأكيد -->
-    <div id="confirm-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc" hidden>
-        <div class="modal-content">
-            <h2 id="confirm-title">تأكيد</h2>
-            <p id="confirm-desc">هل أنت متأكد من القيام بهذا الإجراء؟</p>
-            <div class="modal-buttons">
-                <button id="confirm-yes-btn" class="btn btn-yes">نعم</button>
-                <button id="confirm-no-btn" class="btn btn-no">لا</button>
-            </div>
-        </div>
-    </div>
 
     <main class="container">
+        <!-- تراكب المودال -->
         <div id="modal-overlay" hidden></div>
 
+        <!-- رأس الصفحة -->
         <header class="header">
-            <!-- زر تغيير الثيم -->
-            <button id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌙</button>
-            <div class="Count">
-                <span id="taskCount"></span>
-                <span>:عدد المهام الحالية</span>
-                <span id="completionRate" style="margin-right: 10px; color: green; font-weight: bold;"></span>
-            </div>
-            <h1>قائمة المهام</h1>
+            <!-- اختيار اللغة -->
+            <select id="languageSelect" aria-label="اختيار اللغة">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
 
+            <!-- العنوان الرئيسي -->
+            <h1 id="title-main">قائمة المهام</h1>
+
+            <!-- عداد المهام ونسبة الإنجاز -->
+            <div class="Count">
+                <span id="taskCountLabel">عدد المهام الحالية: </span>
+                <span id="taskCount">0</span>
+                <span id="completionRate" style="margin-inline-start: 10px; color: green; font-weight: bold;"></span>
+            </div>
+
+            <!-- زر تبديل الثيم -->
+            <button id="themeToggle" title="تبديل الوضع الليلي/النهاري">🌙</button>
         </header>
 
-        <!-- نموذج إدخال المهمة -->
-        <form onsubmit="return false;">
+        <!-- نموذج إضافة المهمة -->
+        <form onsubmit="return false;" class="task-input-form">
+            <!-- الحقل النصي -->
             <input id="taskInput" type="text" placeholder="أضف مهمة جديدة" autocomplete="off" />
+
+            <!-- الموعد النهائي -->
+            <input id="deadlineInput" type="datetime-local" title="اختر الموعد النهائي" />
 
             <!-- تحديد الأولوية -->
             <select id="priorityInput" title="تحديد أولوية المهمة">
@@ -59,28 +67,25 @@
                 <option value="low">منخفض ✅</option>
             </select>
 
-            <!-- إدخال الموعد النهائي -->
-            <input id="deadlineInput" type="datetime-local" title="اختر الموعد النهائي" />
-
-            <button id="addBtn" type="button">إضافة</button>
+            <!-- أزرار التحكم -->
+            <button id="voiceControlBtn" title="التحكم الصوتي الكامل" type="button">🎧 تحكم صوتي</button>
+            <button id="addBtn" type="button">➕ إضافة</button>
         </form>
 
-        <!-- قائمة المهام -->
-        <ul id="taskList"></ul>
-
-        <!-- أدوات إضافية -->
-        <section class="box">
-            <button id="clearAllBtn">🗑️ حذف جميع المهام</button>
+        <!-- أدوات البحث والفلترة -->
+        <section class="box search-section">
 
             <div class="search-wrapper">
                 <input id="searchInput" type="search" placeholder="🔍 ابحث عن مهمة" style="display: none;" />
                 <button id="clearSearchBtn" type="button" style="display: none;"></button>
             </div>
-            <button id="searchBtn" type="button">🔎 بحث</button>
+
+            <button id="searchBtn" type="button">🔎 البحث في قائمة المهام</button>
             <button id="cancelBtn" type="button" style="display: none;">❌ إلغاء البحث</button>
-            
+            <button id="voiceSearchBtn" type="button" style="display: none;">🎤 البحث الصوتي</button>
+
             <div class="label-group" id="statusFilterGroup" style="display: none;">
-                <label for="statusFilter">📋 حالة المهمة</label>
+                <label for="statusFilter" id="labelStatusFilter">📋 حالة المهمة</label>
                 <select id="statusFilter">
                     <option value="all">كل الحالات</option>
                     <option value="completed">المكتملة</option>
@@ -89,22 +94,30 @@
             </div>
 
             <div class="label-group" id="matchModeGroup" style="display: none;">
-                <label for="matchMode">🧮 نمط البحث</label>
+                <label for="matchMode" id="labelMatchMode">🧮 نمط البحث</label>
                 <select id="matchMode">
                     <option value="or">أي كلمة</option>
                     <option value="and">كل الكلمات</option>
                 </select>
             </div>
 
-
-            <button id="voiceSearchBtn" type="button" style="display: none;">🎤البحث الصوتي</button>
-            <div id="matchCount" style="display: none;">عدد النتائج: 0</div>
+            <div id="matchCount">عدد النتائج: 0</div>
         </section>
 
+        <!-- قائمة المهام -->
+        <ul id="taskList"></ul>
+
+        <!-- أدوات إضافية -->
+        <section class="box actions-section">
+            <button id="clearAllBtn" type="button">🗑️ حذف جميع المهام</button>
+        </section>
 
     </main>
 
-    <script src="js/script.js"></script>
+    <script src="js/translations.js" type="module"></script>
+    <script src="js/voice-control.js" type="module"></script>
+    <script src="js/main.js" type="module"></script>
+
 </body>
 
 </html>

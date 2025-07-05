@@ -1,0 +1,1142 @@
+/* === CSS Variables for Light and Dark Themes === */
+:root {
+    --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-arabic: 'Droid Arabic Naskh', Arial, sans-serif;
+
+    /* Light Theme Colors */
+    --bg-body: #f2f2f2;
+    --text-body: #333;
+    --container-bg: #fff;
+    --container-shadow: rgba(0, 0, 0, 0.2);
+    --border-color: #ccc;
+    --input-bg: #f2f2f2;
+    --input-outline: #333;
+    --button-bg: #333;
+    --button-color: #fff;
+    --button-hover-bg: #555;
+
+    --priority-high-border: #e53935;
+    --priority-high-bg: #fdecea;
+    --priority-medium-border: #fbc02d;
+    --priority-medium-bg: #fff9e1;
+    --priority-low-border: #43a047;
+    --priority-low-bg: #e8f5e9;
+
+    --border-radius: 8px;
+    --padding-base: 10px;
+    --font-size-base: 14px;
+    --transition-fast: 0.3s ease;
+}
+
+html.dark-theme {
+    --bg-body: #0e0f1a;
+    --text-body: #d6d9e0;
+    --container-bg: #1a1c2c;
+    --container-shadow: rgba(0, 0, 0, 0.6);
+    --border-color: #2c2f4a;
+    --input-bg: #2a2d3e;
+    --input-outline: #6ba4ff;
+    --button-bg: #273048;
+    --button-color: #fff;
+    --button-hover-bg: #3a4565;
+
+    --priority-high-border: #ff6b6b;
+    --priority-high-bg: #3a1c1c;
+    --priority-high-text: #ffcdd2;
+    --priority-medium-border: #ffd166;
+    --priority-medium-bg: #3a341c;
+    --priority-medium-text: #fff8e1;
+    --priority-low-border: #6bff95;
+    --priority-low-bg: #1c3a2c;
+    --priority-low-text: #c8facc;
+}
+
+/* === Reset and Base Styles === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-arabic);
+}
+
+body {
+    background: var(--bg-body);
+    color: var(--text-body);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-base);
+    padding: 10px;
+}
+
+/* === Container === */
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    background: var(--container-bg);
+    box-shadow: 0 0 10px var(--container-shadow);
+    border-radius: var(--border-radius);
+    overflow-y: auto;
+}
+
+/* === Header === */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#languageSelect {
+    appearance: none;
+    /* إزالة التنسيق الافتراضي */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--container-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 8px 40px 8px 12px;
+    /* مسافة من اليمين لعرض السهم */
+    font-size: 16px;
+    font-family: var(--font-base);
+    cursor: pointer;
+    outline: none;
+    color: var(--text-body);
+    min-width: 130px;
+    direction: rtl;
+    /* لأن العربية هي الاتجاه الافتراضي */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg width='10' height='7' viewBox='0 0 10 7' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill='%23666' d='M0 0l5 7 5-7z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px 7px;
+    transition: border-color var(--transition-fast);
+}
+
+#languageSelect:hover {
+    border-color: #007bff;
+    /* يمكن تعديلها لاستخدام متغير إذا أردت */
+}
+
+#languageSelect:focus {
+    border-color: #0056b3;
+    /* يمكن تعديلها لاستخدام متغير إذا أردت */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+/* لجعل اللغة الإنجليزية تظهر من اليسار عند اختيارها */
+#languageSelect option[value="en"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* لجعل اللغة العربية تظهر من اليمين */
+#languageSelect option[value="ar"] {
+    direction: rtl;
+    text-align: right;
+}
+
+
+h1 {
+    font-size: 36px;
+    color: var(--text-body);
+}
+
+.Count {
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    user-select: none;
+}
+
+.Count #taskCount {
+    color: orange;
+}
+
+#completionRate {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: #4caf50;
+    margin-left: 10px;
+    user-select: none;
+}
+
+/* === Theme toggle button === */
+#themeToggle {
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+#themeToggle:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* === Form (نموذج إضافة المهمة) === */
+form,
+.task-input-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="search"] {
+    flex: 1;
+    max-width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: var(--input-bg);
+    outline-color: var(--input-outline);
+    font-size: 16px;
+    color: inherit;
+}
+
+input[type="search"] {
+    display: none;
+}
+
+select#priorityInput,
+input[type="datetime-local"] {
+    padding: var(--padding-base);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-size: var(--font-size-base);
+    outline-color: var(--input-outline);
+    background: var(--input-bg);
+    transition: border-color var(--transition-fast);
+    color: inherit;
+    cursor: pointer;
+}
+
+select#priorityInput {
+    min-width: 120px;
+}
+
+input[type="datetime-local"] {
+    min-width: 180px;
+}
+
+input[type="datetime-local"]:focus,
+select#priorityInput:focus {
+    border-color: var(--input-outline);
+    outline: none;
+}
+
+/* أزرار النموذج */
+button {
+    max-width: 250px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: var(--button-bg);
+    color: var(--button-color);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: var(--button-hover-bg);
+}
+
+/* === قائمة المهام === */
+#taskList {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 0;
+}
+
+#taskList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#taskList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#taskList::-webkit-scrollbar-thumb {
+    background: var(--button-bg);
+    border-radius: 10px;
+}
+
+#taskList::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+/* عناصر المهمة */
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 10px;
+    background: var(--input-bg);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    color: inherit;
+    flex-wrap: wrap;
+}
+
+/* اسم المهمة */
+li .task-name {
+    flex: 1;
+    max-width: fit-content;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+/* موعد المهمة */
+li .task-deadline {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: inherit;
+}
+
+.countdown-timer {
+    font-weight: 600;
+    padding: 0 10px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 14px;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    flex: 1;
+    text-align: center
+}
+
+/* حالة الوقت انتهى */
+.countdown-expired {
+    background-color: #f44336;
+    /* أحمر */
+    color: #fff;
+    box-shadow: 0 0 8px rgba(244, 67, 54, 0.7);
+}
+
+/* حالة الوقت ينفد (عاجل) */
+.countdown-danger {
+    background-color: #ff9800;
+    /* برتقالي */
+    color: #fff;
+    box-shadow: 0 0 8px rgba(255, 152, 0, 0.7);
+}
+
+/* حالة قرب الموعد */
+.countdown-warning {
+    background-color: #ffeb3b;
+    /* أصفر */
+    color: #444;
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.7);
+}
+
+/* حالة الوقت كافٍ */
+.countdown-normal {
+    background-color: #4caf50;
+    /* أخضر */
+    color: #fff;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* خانة الاختيار (checkbox) */
+li input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-inline: 6px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    appearance: none;
+    background: #fff;
+    position: relative;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+li input[type="checkbox"]:hover {
+    border-color: var(--button-bg);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+li input[type="checkbox"]:checked {
+    background-color: var(--button-bg);
+    border-color: var(--button-bg);
+}
+
+li input[type="checkbox"]:checked::before {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    color: var(--button-color);
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    animation: checkmark-appear 0.3s ease forwards;
+}
+
+li input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.3);
+}
+
+/* Checkmark animation */
+@keyframes checkmark-appear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.edit-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background-color: var(--container-bg);
+    padding: var(--padding-base);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 6px var(--container-shadow);
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.edit-container input[type="text"],
+.edit-container select,
+.edit-container input[type="datetime-local"] {
+    flex: 1 1 150px;
+    padding: 8px 12px;
+    font-size: var(--font-size-base);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-body);
+    font-family: var(--font-base);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.edit-container input:focus,
+.edit-container select:focus {
+    border-color: var(--input-outline);
+    box-shadow: 0 0 5px var(--input-outline);
+    outline: none;
+}
+
+.edit-container button {
+    flex: 0 0 auto;
+    padding: 8px 18px;
+    font-size: var(--font-size-base);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-base);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.edit-container button:hover {
+    transform: translateY(-1px);
+}
+
+.edit-container button:first-of-type {
+    background-color: #4caf50;
+    ;
+    color: var(--button-color);
+}
+
+.edit-container button:first-of-type:hover {
+    background-color: var(--button-hover-bg);
+}
+
+.edit-container button:last-of-type {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.edit-container button:last-of-type:hover {
+    background-color: var(--button-hover-bg);
+}
+
+
+
+/* أزرار إجراءات المهمة */
+li .task-actions {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+li .task-actions button {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background: #008CBA;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+li .task-actions button:hover {
+    background: #005f73;
+}
+
+li .task-actions button:first-of-type {
+    background: #f44336;
+}
+
+li .task-actions button:first-of-type:hover {
+    background: #ba000d;
+}
+
+/* === Priority Styles === */
+li.priority-high,
+li.priority-medium,
+li.priority-low {
+    border-left-width: 8px;
+    border-left-style: solid;
+    color: inherit;
+}
+
+li.priority-high {
+    border-color: var(--priority-high-border);
+    background-color: var(--priority-high-bg);
+}
+
+li.priority-medium {
+    border-color: var(--priority-medium-border);
+    background-color: var(--priority-medium-bg);
+}
+
+li.priority-low {
+    border-color: var(--priority-low-border);
+    background-color: var(--priority-low-bg);
+}
+
+/* Dark theme priority overrides */
+html.dark-theme body li.priority-high {
+    border-color: var(--priority-high-border);
+    background-color: var(--priority-high-bg);
+    color: var(--priority-high-text);
+}
+
+html.dark-theme body li.priority-medium {
+    border-color: var(--priority-medium-border);
+    background-color: var(--priority-medium-bg);
+    color: var(--priority-medium-text);
+}
+
+html.dark-theme body li.priority-low {
+    border-color: var(--priority-low-border);
+    background-color: var(--priority-low-bg);
+    color: var(--priority-low-text);
+}
+
+/* === Completed Task Style === */
+li.completed span {
+    color: #7a8ba0 !important;
+    text-decoration: line-through;
+    text-decoration-color: #708090;
+    font-style: italic;
+    opacity: 0.7;
+    position: relative;
+    padding-right: 20px;
+}
+
+/* Dark theme overrides for tasks */
+html.dark-theme li {
+    background-color: #222637;
+    box-shadow: 0 1px 4px rgba(255 255 255 / 0.05);
+    border: 1px solid #2f334b;
+    transition: background-color var(--transition-fast);
+}
+
+html.dark-theme li.completed span {
+    color: #9aa8bb !important;
+    text-decoration-color: #6c7a94;
+}
+
+/* === Box with Extra Buttons (أدوات إضافية وأدوات البحث) === */
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 20px;
+    padding: 10px;
+    background: var(--container-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px var(--container-shadow);
+}
+
+.search-section {
+    margin-bottom: 20px
+}
+
+.box button,
+.box input[type="search"],
+.box select {
+    flex: 1 1 140px;
+    background: var(--button-bg);
+    color: var(--button-color);
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: 0.3s ease;
+}
+
+/* البحث */
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    width: 100%;
+    padding-right: 30px;
+}
+
+#clearSearchBtn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    display: none;
+    transition: color 0.2s ease;
+}
+
+#clearSearchBtn:hover {
+    color: #333;
+}
+
+.label-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 140px;
+    gap: 5px;
+}
+
+.label-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-body);
+    padding-inline-start: 4px;
+}
+
+#matchCount {
+    font-weight: bold;
+    font-size: 15px;
+    background: var(--button-bg);
+    color: var(--button-color);
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-inline-start: auto;
+    display: none;
+}
+
+/* البحث - نص مطابق */
+.matched-text {
+    background: linear-gradient(90deg, #fffa72, #ffeb3b);
+    color: #222;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 0 3px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
+}
+
+/* rtl دعم اتجاه الكتابة */
+.rtl {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+/* رسالة عدم وجود نتائج */
+.no-results-message {
+    color: #b71c1c;
+    /* لون أحمر داكن */
+    background-color: #ffebee;
+    /* خلفية وردية فاتحة */
+    border: 1px solid #f44336;
+    /* حد أحمر */
+    border-radius: 8px;
+    padding: 20px 15px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+    margin: 20px auto;
+    max-width: 400px;
+    user-select: none;
+}
+
+/* === Confirmation Modal & Overlay (نافذة التأكيد) === */
+.custom-confirmation,
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+    z-index: 9999;
+}
+
+.custom-confirmation.show,
+#modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.confirm-content,
+.modal {
+    background: var(--container-bg);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 380px;
+    width: 90%;
+    font-family: var(--font-base);
+    text-align: center;
+    font-size: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.confirm-content.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* Modal content text */
+.modal-content h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+/* Modal buttons container */
+.confirm-buttons,
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Buttons style */
+.confirm-buttons button,
+.btn {
+    padding: 10px 20px;
+    min-width: 90px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+/* Yes buttons */
+.confirm-no,
+.btn-no {
+    background-color: #4caf50;
+    color: white;
+    animation: shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.confirm-no:hover,
+.btn-no:hover {
+    background-color: #45a049;
+}
+
+/* No buttons with shake animation */
+.confirm-yes,
+.btn-yes {
+    background-color: #f44336;
+    color: white;
+}
+
+.confirm-yes:hover,
+.btn-yes:hover {
+    background-color: #da190b;
+}
+
+/* Shake animation keyframes */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(-8px);
+    }
+
+    20% {
+        transform: translateX(8px);
+    }
+
+    30% {
+        transform: translateX(-6px);
+    }
+
+    40% {
+        transform: translateX(6px);
+    }
+
+    50% {
+        transform: translateX(-4px);
+    }
+
+    60% {
+        transform: translateX(4px);
+    }
+
+    70% {
+        transform: translateX(-2px);
+    }
+
+    80% {
+        transform: translateX(2px);
+    }
+
+    90% {
+        transform: translateX(-1px);
+    }
+}
+
+/* === Success and Error Messages === */
+.success-message {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width: 400px;
+    max-width: 95%;
+    padding: 20px 30px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-family: var(--font-base);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    z-index: 11000;
+    text-align: center;
+    user-select: none;
+    pointer-events: none;
+}
+
+.success-message.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+}
+
+.success-message.success {
+    background-color: #74ef91;
+    color: #222;
+}
+
+.success-message.error {
+    background-color: #f44336;
+    color: #fff;
+}
+
+
+/* === Responsive Styles === */
+
+/* Small screens (max-width: 479px) */
+@media (max-width: 479px) {
+    body {
+        padding: 10px;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .container {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        max-height: none;
+        padding: 15px;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .success-message {
+        width: 90%;
+    }
+
+    form,
+    .box {
+        flex-direction: column;
+        gap: 15px !important;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .Count {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+
+    #taskList {
+        max-height: 300px;
+    }
+
+    #themeToggle {
+        top: 5px;
+        left: 5px;
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+
+    .label-group {
+        flex: 1 1 100%;
+        gap: 8px;
+    }
+
+    #matchCount {
+        align-self: flex-start;
+        margin-top: 5px;
+    }
+
+    li {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+    }
+
+    li .task-name,
+    li .task-actions,
+    li .task-deadline {
+        width: 100%;
+        margin: 4px 0;
+        text-align: center;
+    }
+
+    li .task-name {
+        order: 4;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: right;
+    }
+
+    li .task-actions {
+        order: 1;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+
+    li input[type="checkbox"] {
+        order: 2;
+        margin-right: 0;
+    }
+
+    li .task-deadline {
+        order: 3;
+        color: gray;
+        font-size: 13px;
+        margin: 5px 0;
+    }
+
+    input[type="text"],
+    select#priorityInput,
+    input[type="datetime-local"],
+    button#addBtn,
+    .box button,
+    .box input[type="search"],
+    form button,
+    li .task-actions button,
+    .edit-container input,
+    .edit-container select,
+    .edit-container button {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px;
+        min-width: 100%;
+        flex: auto !important;
+    }
+
+    .edit-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-container button {
+        margin-top: 5px;
+    }
+}
+
+/* Medium screens (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    .container {
+        padding: 15px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .success-message {
+        width: 70%;
+    }
+
+    form {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    input[type="text"] {
+        flex: 1 1 60%;
+        min-width: 60%;
+    }
+
+    select#priorityInput,
+    input[type="datetime-local"],
+    button#addBtn {
+        flex: 1 1 18%;
+        min-width: 18%;
+    }
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .Count {
+        font-size: 15px;
+        padding: 5px 10px;
+    }
+
+    .box {
+        gap: 10px;
+    }
+
+    #taskList {
+        max-height: 350px;
+    }
+}
+
+/* Large screens (≥768px) */
+@media (min-width: 768px) {
+    .container {
+        max-width: 80%;
+    }
+
+    form {
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+    input[type="text"] {
+        max-width: 250px;
+        flex-grow: 1;
+    }
+
+    select#priorityInput,
+    input[type="datetime-local"],
+    button#addBtn {
+        width: auto;
+        flex-grow: 0;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .Count {
+        font-size: 15px;
+    }
+
+    #taskList {
+        max-height: 400px;
+    }
+
+    #themeToggle {
+        font-size: 20px;
+        padding: 10px 14px;
+    }
+}
