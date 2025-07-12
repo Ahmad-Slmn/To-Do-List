@@ -74,34 +74,58 @@
 
         <!-- أدوات البحث والفلترة -->
         <section class="box search-section">
-
-            <div class="search-wrapper">
-                <input id="searchInput" type="search" placeholder="🔍 ابحث عن مهمة" style="display: none;" />
-                <button id="clearSearchBtn" type="button" style="display: none;"></button>
+            <!-- مجموعة إدخال البحث -->
+            <div class="search-wrapper" id="search_wrapper">
+                <input id="searchInput" type="search" placeholder="🔍 ابحث عن مهمة">
             </div>
 
+            <!-- زر بدء البحث -->
             <button id="searchBtn" type="button">🔎 البحث في قائمة المهام</button>
-            <button id="cancelBtn" type="button" style="display: none;">❌ إلغاء البحث</button>
-            <button id="voiceSearchBtn" type="button" style="display: none;">🎤 البحث الصوتي</button>
 
-            <div class="label-group" id="statusFilterGroup" style="display: none;">
-                <label for="statusFilter" id="labelStatusFilter">📋 حالة المهمة</label>
-                <select id="statusFilter">
-                    <option value="all">كل الحالات</option>
-                    <option value="completed">المكتملة</option>
-                    <option value="pending">غير المكتملة</option>
-                </select>
+            <!-- تحديد ترتيب المهام -->
+            <select id="sortTasksSelect">
+                <option value="default">الترتيب الافتراضي</option>
+                <option value="complete">المهام المكتملة</option>
+                <option value="incompleteOnly">المهام غير المكتملة</option>
+                <option value="newest">المهام الأحدث</option>
+                <option value="oldest">المهام الأقدم</option>
+                <option value="priority">حسب الأولوية (من العالي إلى المنخفض)</option>
+            </select>
+
+            <!-- تحكمات البحث المتقدمة -->
+            <div id="searchControls" style="display:none">
+                <!-- مجموعة الأزرار -->
+                <div style="display: flex; gap: 10px; flex: 1 1 100%; flex-wrap: wrap;">
+                    <button id="cancelBtn" type="button">❌ إلغاء البحث</button>
+                    <button id="voiceSearchBtn" type="button">🎤 البحث الصوتي</button>
+                </div>
+
+                <!-- مجموعة الفلاتر -->
+                <div class="label-group" id="statusFilterGroup">
+                    <label for="statusFilter" id="labelStatusFilter">📋 حالة المهمة</label>
+                    <select id="statusFilter">
+                        <option value="all">كل الحالات</option>
+                        <option value="completed">المكتملة</option>
+                        <option value="pending">غير المكتملة</option>
+                    </select>
+                </div>
+
+                <div class="label-group" id="matchModeGroup">
+                    <label for="matchMode" id="labelMatchMode">🧮 نمط البحث</label>
+                    <select id="matchMode">
+                        <option value="or">أي كلمة</option>
+                        <option value="and">كل الكلمات</option>
+                    </select>
+                </div>
+
+                <!-- عدد النتائج -->
+                <div id="matchCount" style="display: none;">
+                    <span id="matchCountLabel">عدد النتائج:</span>
+                    <span id="matchCountNumber">0</span>
+                </div>
+
             </div>
 
-            <div class="label-group" id="matchModeGroup" style="display: none;">
-                <label for="matchMode" id="labelMatchMode">🧮 نمط البحث</label>
-                <select id="matchMode">
-                    <option value="or">أي كلمة</option>
-                    <option value="and">كل الكلمات</option>
-                </select>
-            </div>
-
-            <div id="matchCount">عدد النتائج: 0</div>
         </section>
 
         <!-- قائمة المهام -->

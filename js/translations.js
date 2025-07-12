@@ -1,15 +1,18 @@
-// js/translations.js
 const translations = {
     ar: {
         // رسائل الخطأ
         errorSearchMinTasks: "لا يمكن البحث، يجب وجود 3 مهام على الأقل!",
-        errorMinChars: "خطأ: يجب إدخال مهمة صحيحة تحتوي على ثلاثة أحرف على الأقل",
-        errorDuplicateTask: "خطأ: المهمة موجودة بالفعل",
         errorPastDeadline: "⚠️ لا يمكن تعيين موعد نهائي في الماضي",
         errorEditMinChars: "خطأ: المهمة يجب أن تحتوي على 3 أحرف على الأقل.",
         errorEditDuplicate: "هذه المهمة موجودة مسبقاً.",
         errorEditPastDeadline: "خطأ: لا يمكن تعيين موعد نهائي في الماضي.",
         errorNoChange: "لم تقم بتغيير المهمة.",
+        errorEmptyTask: "⚠️ لا يمكن ترك المهمة فارغة أو تحتوي على رموز فقط.",
+        errorMinChars: "⚠️ المهمة قصيرة جدًا، يجب أن تكون 3 أحرف على الأقل.",
+        errorTooLong: "⚠️ المهمة طويلة جدًا، الحد الأقصى 200 حرف.",
+        errorDuplicateTask: "⚠️ هذه المهمة موجودة بالفعل.",
+        errorHTMLNotAllowed: "⚠️ لا يُسمح بإدخال HTML أو أكواد.",
+        taskAdded: "✅ تم إضافة المهمة بنجاح.",
 
         // رسائل التأكيد
         confirmDesc: "هل أنت متأكد من القيام بهذا الإجراء؟",
@@ -46,9 +49,19 @@ const translations = {
         unknownCommand: "🤔 لم أفهم الأمر. مثال: \"أضف مهمة الدراسة غدًا الساعة 5 مساءً\"",
         errorUnknownCommand: "أمر غير معروف",
         listeningMessage: "🎙️ جاري الاستماع... مثال: أضف مهمة الدراسة غدًا الساعة 5 مساءً",
+        "languageChanged": "تم تغيير اللغة إلى {{newLang}}",
+        "arabic": "العربية",
+        "english": "الإنجليزية",
+        "voiceErrorNoSpeech": "لم يتم الكشف عن أي كلام، يرجى المحاولة مجددًا.",
+        "voiceErrorAudioCapture": "لا يمكن الوصول إلى الميكروفون، تأكد من السماح للتطبيق باستخدامه.",
+        "voiceErrorNotAllowed": "تم رفض الإذن لاستخدام الميكروفون. يرجى السماح به في إعدادات الجهاز.",
+        "voiceErrorNetwork": "مشكلة في الاتصال بالشبكة. يرجى التحقق من الاتصال بالإنترنت.",
+        "voiceErrorLanguageNotSupported": "اللغة غير مدعومة من قبل خدمة التعرف على الصوت.",
+        "voiceErrorSpeechUnavailable": "خدمة التعرف على الصوت غير متوفرة حاليًا.",
+        "voiceErrorUnknown": "حدث خطأ غير معروف أثناء معالجة الأمر الصوتي.",
 
         // الأزرار
-        addBtnText: "إضافة",
+        addBtnText: "➕ إضافة",
         editBtnText: "تعديل",
         deleteBtnText: "حذف",
         cancelEditText: "إلغاء التعديل",
@@ -61,6 +74,13 @@ const translations = {
         statusAll: "كل الحالات",
         statusCompleted: "المكتملة",
         statusPending: "غير المكتملة",
+        langSwitchBtn: "العربية",
+        sortDefault: "الترتيب الافتراضي",
+        sortComplete: "المهام المكتملة",
+        sortIncomplete: "المهام غير المكتملة",
+        sortNewest: "المهام الأحدث",
+        sortOldest: "المهام الأقدم",
+        sortPriority: "حسب الأولوية (من العالي إلى المنخفض)",
 
         // خيارات البحث
         matchModeLabel: "🧮 نمط البحث",
@@ -76,6 +96,14 @@ const translations = {
         noSearchToCancel: "ℹ️ لا يوجد بحث لتتم إزالته",
 
         // الرسائل التحفيزية
+        noDeadlineSet: [
+  "📝 لم يتم تعيين موعد نهائي بعد، يمكنك تعيين واحد الآن!",
+  "⏰ لا تنسى ضبط موعد لإنجاز المهمة في الوقت المناسب.",
+  "⚡ تنظيم الوقت يساعدك على الإنجاز بشكل أفضل!",
+  "📅 أضف موعدًا نهائيًا لتبقى على المسار الصحيح.",
+  "🔔 تذكير: تعيين موعد نهائي يحفزك على الإنجاز."
+],
+
         motivationalUrgent: [
     "🚀 أسرع، الوقت ينفد!",
     "🔥 لا تستسلم الآن، أنجز المهمة قبل انتهاء الوقت!",
@@ -92,10 +120,11 @@ const translations = {
     "🚀 استغل الوقت بحكمة، وستحقق أهدافك!"
   ],
 
+        secondSingular: "ثانية",
+        secondPlural: "ثوانٍ",
         // رسائل حالة المهام
-        taskAdded: "تم إضافة المهمة بنجاح",
         taskEdited: "!تم تعديل المهمة بنجاح",
-        taskDeleted: "تم حذف المهمة بنجاح",
+        "taskDeleted": "تم حذف مهمة \"{taskName}\" بنجاح",
         taskAlreadyCompleted: "✅ المهمة رقم {{index}} مكتملة بالفعل",
         taskMarkedComplete: "✔️ تم تعليم المهمة رقم {{index}} كمكتملة",
         taskAlreadyCompletedByName: "✅ المهمة \"{{name}}\" مكتملة بالفعل",
@@ -104,6 +133,9 @@ const translations = {
         // رسائل قائمة المهام
         taskCount: "📋 لديك {{count}} مهمة حالية",
         noTasksToShow: "📭 لا توجد مهام لعرضها حاليًا",
+        "taskCompleted": "تم إنهاء المهمة",
+        "taskUncompleted": "تم إلغاء إنهاء المهمة",
+
 
         // أخطاء التحكم الصوتي
         "voice-errorMinChars": "❗ المهمة يجب أن تكون 3 أحرف على الأقل",
@@ -112,9 +144,9 @@ const translations = {
         taskDuplicateError: "⚠️ المهمة الجديدة مطابقة لمهمة موجودة بالفعل، لا يمكن التكرار",
         "voice-taskEdited": "✏️ تم تعديل \"{{oldTask}}\" إلى \"{{newText}}\"",
         taskByNameNotFound: "📛 لا توجد مهمة باسم \"{{name}}\"",
-        "voice-taskDeleted": "🗑️ تم حذف المهمة رقم {{index}}",
+        "voice-taskDeleted": "تم حذف المهمة رقم {index} بنجاح",
         taskNotFoundByNumber: "📛 لا توجد مهمة برقم {{index}}",
-        taskDeletedByName: "🗑️ تم حذف المهمة \"{{name}}\"",
+        taskDeletedByName: " تم حذف مهمة \"{{name}}\" بنجاح",
         taskNotFoundByName: "📛 لا توجد مهمة باسم \"{{name}}\"",
 
         // تخصيص الوضع المظلم والفاتح
@@ -135,23 +167,48 @@ const translations = {
         hourPlural: "ساعات",
         minuteSingular: "دقيقة",
         minutePlural: "دقائق",
+        remainingTime: "⏳ الوقت المتبقي",
+        taskTimeExpired: "❗ انتهى وقت المهمة. الرجاء المراجعة أو التعديل.",
+
 
         // الرسائل عند عدم وجود مهام
-        noTasksMessage: "لا توجد مهام",
-        cannotEditCompletedTask: "لا يمكن تعديل مهمة تم تنفيذها"
+        cannotEditCompletedTask: "لا يمكن تعديل مهمة تم تنفيذها",
+        noTasksMessage: "لا توجد مهام حتى الآن.",
+        noCompletedTasksMessage: "لا توجد مهام مكتملة حتى الآن.",
+        noIncompleteTasksMessage: "كل المهام مكتملة! 🎉",
+        noNewestTasksMessage: "لا توجد مهام حديثة لعرضها.",
+        noOldestTasksMessage: "لا توجد مهام قديمة لعرضها.",
+        noPriorityTasksMessage: "لا توجد مهام مصنّفة بالأولوية.",
+        allSamePriorityMessage: "كل المهام لها نفس الأولوية، لم يتم تغيير الترتيب.",
+        sortChangedMessage: 'تم تغيير الفرز من "{from}" إلى "{to}"',
+        sortLabels: {
+            default: "الترتيب الافتراضي",
+            complete: "المهام المكتملة",
+            incompleteOnly: "المهام غير المكتملة",
+            newest: "المهام الأحدث",
+            oldest: "المهام الأقدم",
+            priority: "حسب الأولوية",
+        }
+
+
     },
+
 
 
     en: {
         // --- Error Messages ---
         errorSearchMinTasks: "Cannot search, at least 3 tasks are required!",
-        errorMinChars: "Error: Enter a valid task with at least three characters",
-        errorDuplicateTask: "Error: Task already exists",
-        errorPastDeadline: "⚠️ Cannot set deadline in the past",
         errorEditMinChars: "Error: Task must be at least 3 characters.",
         errorEditDuplicate: "This task already exists.",
         errorEditPastDeadline: "Error: Cannot set deadline in the past.",
         errorNoChange: "You did not change the task.",
+        "errorEmptyTask": "⚠️ Task cannot be empty or contain only symbols.",
+        "errorMinChars": "⚠️ Task is too short, minimum 3 characters required.",
+        "errorTooLong": "⚠️ Task is too long, maximum allowed is 200 characters.",
+        "errorDuplicateTask": "⚠️ This task already exists.",
+        "errorPastDeadline": "⚠️ You can't select a date in the past.",
+        "errorHTMLNotAllowed": "⚠️ HTML or code is not allowed in the task.",
+        "taskAdded": "✅ Task added successfully.",
 
         // --- Confirmation Messages ---
         confirmDesc: "Are you sure you want to perform this action?",
@@ -174,15 +231,22 @@ const translations = {
         priorityLow: "Low ✅",
 
         // --- Buttons Text ---
-        addBtnText: "Add",
+        addBtnText: "➕ Add",
         editBtnText: "Edit",
         deleteBtnText: "Delete",
         cancelEditText: "Cancel edit",
         saveEditText: "Save edit",
         clearAllBtnText: "🗑️ Delete All Tasks",
         searchBtnText: "🔎 Search Task List",
-        cancelSearchBtnText: "❌ Cancel Search",
+        cancelBtnText: "❌ Cancel Search",
         voiceSearchBtnText: "🎤 Voice Search",
+        langSwitchBtn: "English",
+        sortDefault: "Default Order",
+        sortComplete: "Completed Tasks",
+        sortIncomplete: "Incomplete Tasks",
+        sortNewest: "Newest Tasks",
+        sortOldest: "Oldest Tasks",
+        sortPriority: "By Priority (High to Low)",
 
         // --- Task Status ---
         statusFilterLabel: "📋 Task Status",
@@ -200,13 +264,15 @@ const translations = {
         noSearchResults: "No tasks match the search",
 
         // --- Task Status Updates ---
-        taskAdded: "Task added successfully",
         taskEdited: "Task edited successfully!",
-        taskDeleted: "Task deleted successfully",
+        "taskDeleted": "Task \"{taskName}\" deleted successfully",
         taskAlreadyCompleted: "✅ Task number {{index}} is already completed",
         taskMarkedComplete: "✔️ Task number {{index}} was marked as completed",
         taskAlreadyCompletedByName: "✅ The task \"{{name}}\" is already completed",
         taskMarkedCompleteByName: "✔️ The task \"{{name}}\" was marked as completed",
+        "taskCompleted": "Task marked as complete",
+        "taskUncompleted": "Task marked as incomplete",
+
 
         // --- Task Actions ---
         taskCount: "📋 You have {{count}} current tasks",
@@ -223,13 +289,26 @@ const translations = {
         errorUnknownCommand: "Unknown command",
         listeningMessage: "🎙️ Listening... Example: Add task: study tomorrow at 5 PM",
         voiceError: "❗ Error occurred during voice recognition",
+        "languageChanged": "Language changed to {{newLang}}",
+        "arabic": "Arabic",
+        "english": "English",
+        "voiceErrorNoSpeech": "No speech detected, please try again.",
+        "voiceErrorAudioCapture": "Unable to access the microphone, make sure the app has permission to use it.",
+        "voiceErrorNotAllowed": "Permission to use the microphone was denied. Please enable it in the device settings.",
+        "voiceErrorNetwork": "Network issue. Please check your internet connection.",
+        "voiceErrorLanguageNotSupported": "The language is not supported by the speech recognition service.",
+        "voiceErrorSpeechUnavailable": "Speech recognition service is currently unavailable.",
+        "voiceErrorUnknown": "An unknown error occurred while processing the voice command.",
+
+
+
 
         // --- Task Deletion Messages ---
         taskNotFound: "📛 Task number not found",
         taskDuplicateError: "⚠️ The new task matches an existing task, duplicates are not allowed",
         "voice-taskEdited": "✏️ Task \"{{oldTask}}\" was changed to \"{{newText}}\"",
         taskByNameNotFound: "📛 No task found with the name \"{{name}}\"",
-        "voice-taskDeleted": "🗑️ Task number {{index}} was deleted",
+        "voice-taskDeleted": "Task number {{index}} was deleted",
         taskNotFoundByNumber: "📛 No task found with number {{index}}",
         taskDeletedByName: "🗑️ Task \"{{name}}\" was deleted",
         taskNotFoundByName: "📛 No task found with the name \"{{name}}\"",
@@ -254,8 +333,17 @@ const translations = {
         searchAlreadyOpen: "ℹ️ The search is already open, you can type what you want to search for",
         searchCancelled: "🛑 Search was cancelled",
         noSearchToCancel: "ℹ️ There is no search to cancel",
+        secondSingular: "second",
+        secondPlural: "seconds",
 
         // --- Motivational Messages ---
+        noDeadlineSet: [
+ "📝 No deadline set yet, you can set one now!",
+    "⏰ Don't forget to set a deadline to complete the task on time.",
+    "⚡ Time management helps you achieve better!",
+    "📅 Add a deadline to stay on track.",
+    "🔔 Reminder: Setting a deadline motivates you to get things done."
+],
         motivationalUrgent: [
     "🚀 Hurry, time is running out!",
     "🔥 Don't give up now, finish the task before time runs out!",
@@ -270,7 +358,26 @@ const translations = {
     "😊 You have plenty of time, plan calmly and start now!",
     "🎯 Remember: organization is key to success!",
     "🚀 Use time wisely, and you'll achieve your goals!"
-  ]
+  ],
+        // Messages when there are no tasks
+        cannotEditCompletedTask: "You cannot edit a completed task",
+        noTasksMessage: "There are no tasks yet.",
+        noCompletedTasksMessage: "No completed tasks yet.",
+        noIncompleteTasksMessage: "All tasks are completed! 🎉",
+        noNewestTasksMessage: "No recent tasks to display.",
+        noOldestTasksMessage: "No older tasks to display.",
+        noPriorityTasksMessage: "No tasks categorized by priority.",
+        allSamePriorityMessage: "All tasks have the same priority, so the order was not changed.",
+
+        sortChangedMessage: 'View mode changed from "{from}" to "{to}"',
+        sortLabels: {
+            default: "Default Order",
+            complete: "Completed Tasks",
+            incompleteOnly: "Incomplete Tasks",
+            newest: "Newest Tasks",
+            oldest: "Oldest Tasks",
+            priority: "By Priority",
+        }
     }
 
 };
@@ -297,7 +404,10 @@ export function t(key, vars = {}) {
     return text;
 }
 
-
+// ترجمة مفتاح الفرز إلى نص العرض أو إرجاع المفتاح إذا لم توجد ترجمة.
+export const getSortLabel = (sortKey) => {
+    return t(`sortLabels.${sortKey}`) || sortKey;
+};
 
 
 // دالة لتعيين اللغة وتحديث النصوص في الصفحة
@@ -335,6 +445,21 @@ export function setLanguage(lang, tasks = [], displayFn = () => {}) {
     priorityOptions[0].textContent = t("priorityHigh");
     priorityOptions[1].textContent = t("priorityMedium");
     priorityOptions[2].textContent = t("priorityLow");
+
+    // تعيين خيارات القائمة
+    const sortSelect = document.getElementById("sortTasksSelect");
+    // استعادة الاختيار المحفوظ
+    const savedSortOrder = localStorage.getItem("taskSortOrder") || "default";
+
+    sortSelect.innerHTML = `
+    <option value="default">${t("sortDefault")}</option>
+  <option value="complete">${t("sortComplete")}</option>
+  <option value="incompleteOnly">${t("sortIncomplete")}</option>
+  <option value="newest">${t("sortNewest")}</option>
+  <option value="oldest">${t("sortOldest")}</option>
+  <option value="priority">${t("sortPriority")}</option>
+`;
+    sortSelect.value = savedSortOrder;
 
     // ✅ الموعد النهائي
     deadlineInput.title = t("deadlineTitle");
