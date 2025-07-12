@@ -22,25 +22,27 @@ const translations = {
         no: "لا",
 
         // النصوص العامة
-        pageTitle: "قائمة المهام", // <title>
         taskListTitle: "قائمة المهام", // h1
         tasksCountLabel: "عدد المهام الحالية",
         matchCountLabel: "عدد النتائج",
         emptyTaskList: "قائمة المهام فارغة",
         completionRateLabel: "نسبة الإنجاز",
         addTaskPlaceholder: "أضف مهمة جديدة",
+        "labelTaskInput": "📝 عنوان المهمة",
+        "labelDeadlineInput": "📅 الموعد النهائي للمهمة",
+        "labelPriorityInput": "⚡ درجة أولوية المهمة	",
+
 
         // الأولوية
-        priorityHigh: "عاجل ⛔",
-        priorityMedium: "متوسط ⚠️",
-        priorityLow: "منخفض ✅",
+        priorityHigh: "⛔ عالية جدًا (عاجلة)",
+        priorityMedium: "⚠️ متوسطة (هامة)",
+        priorityLow: "✅ منخفضة (يمكن تأجيلها)",
 
         // الموعد النهائي
         deadlineTitle: "اختر الموعد النهائي",
 
         // التحكم الصوتي
-        voiceControlBtnText: "🎧 تحكم صوتي",
-        voiceControlTitle: "التحكم الصوتي الكامل",
+        "voiceControlBtnText": "🎧 تشغيل التحكم الصوتي",
         voiceSearchBtnText: "🎤 البحث الصوتي",
         voiceRecognitionError: "حدث خطأ أثناء التعرف على الصوت. الرجاء المحاولة مجددًا.",
         listening: "⏳ جاري الاستماع...",
@@ -61,7 +63,7 @@ const translations = {
         "voiceErrorUnknown": "حدث خطأ غير معروف أثناء معالجة الأمر الصوتي.",
 
         // الأزرار
-        addBtnText: "➕ إضافة",
+        addBtnText: "➕ إضافة المهمة	",
         editBtnText: "تعديل",
         deleteBtnText: "حذف",
         cancelEditText: "إلغاء التعديل",
@@ -224,14 +226,17 @@ const translations = {
         emptyTaskList: "Task list is empty",
         completionRateLabel: "Completion Rate",
         addTaskPlaceholder: "Add a new task",
+        "labelTaskInput": "📝 Task Title",
+        "labelDeadlineInput": "📅 Task Deadline",
+        "labelPriorityInput": "⚡ Task Priority Level",
 
         // --- Task Priority ---
-        priorityHigh: "High ⛔",
-        priorityMedium: "Medium ⚠️",
-        priorityLow: "Low ✅",
+        "priorityHigh": "⛔ Very High (Urgent)",
+        "priorityMedium": "⚠️ Medium (Important)",
+        "priorityLow": "✅ Low (Can Be Delayed)",
 
         // --- Buttons Text ---
-        addBtnText: "➕ Add",
+        addBtnText: "➕ Add Task",
         editBtnText: "Edit",
         deleteBtnText: "Delete",
         cancelEditText: "Cancel edit",
@@ -279,8 +284,7 @@ const translations = {
         noTasksToShow: "📭 There are no tasks to display currently",
 
         // --- Voice Control Messages ---
-        voiceControlBtnText: "🎧 Voice Control",
-        voiceControlTitle: "Full Voice Control",
+        "voiceControlBtnText": "🎧 Enable Voice Control",
         listening: "⏳ Listening...",
         voiceRecognitionError: "Voice recognition error, please try again.",
         stopListening: "🛑 Listening was stopped",
@@ -429,6 +433,10 @@ export function setLanguage(lang, tasks = [], displayFn = () => {}) {
     document.getElementById('clearAllBtn').textContent = t('clearAllBtnText');
     document.getElementById('labelStatusFilter').textContent = t('statusFilterLabel');
     document.getElementById('labelMatchMode').textContent = t('matchModeLabel');
+    document.getElementById("labelTaskInput").textContent = t("labelTaskInput");
+    document.getElementById("labelDeadlineInput").textContent = t("labelDeadlineInput");
+    document.getElementById("labelPriorityInput").textContent = t("labelPriorityInput");
+
 
 
     document.querySelector("header h1").textContent = t("taskListTitle");

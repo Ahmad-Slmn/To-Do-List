@@ -54,22 +54,33 @@
 
         <!-- نموذج إضافة المهمة -->
         <form onsubmit="return false;" class="task-input-form">
-            <!-- الحقل النصي -->
-            <input id="taskInput" type="text" placeholder="أضف مهمة جديدة" autocomplete="off" />
+            <!-- اسم المهمة -->
+            <div class="label-group">
+                <label id="labelTaskInput" for="taskInput">📝 عنوان المهمة</label>
+                <input id="taskInput" type="text" placeholder="أضف مهمة جديدة" autocomplete="off" />
+            </div>
 
             <!-- الموعد النهائي -->
-            <input id="deadlineInput" type="datetime-local" title="اختر الموعد النهائي" />
+            <div class="label-group">
+                <label id="labelDeadlineInput" for="deadlineInput">📅 الموعد النهائي للمهمة</label>
+                <input id="deadlineInput" type="datetime-local" title="اختر الموعد النهائي" />
+            </div>
 
-            <!-- تحديد الأولوية -->
-            <select id="priorityInput" title="تحديد أولوية المهمة">
-                <option value="high">عاجل ⛔</option>
-                <option value="medium" selected>متوسط ⚠️</option>
-                <option value="low">منخفض ✅</option>
-            </select>
+            <!-- أولوية المهمة -->
+            <div class="label-group">
+                <label id="labelPriorityInput" for="priorityInput">⚡ درجة أولوية المهمة </label>
+                <select id="priorityInput" title="تحديد أولوية المهمة">
+                    <option value="high">⛔ عالية جدًا (عاجلة)</option>
+                    <option value="medium" selected>⚠️ متوسطة (هامة)</option>
+                    <option value="low">✅ منخفضة (يمكن تأجيلها)</option>
+                </select>
+            </div>
 
             <!-- أزرار التحكم -->
-            <button id="voiceControlBtn" title="التحكم الصوتي الكامل" type="button">🎧 تحكم صوتي</button>
-            <button id="addBtn" type="button">➕ إضافة</button>
+            <div class="label-group buttons-group">
+                <button id="voiceControlBtn" title="التحكم الصوتي الكامل" type="button">🎧 تشغيل التحكم الصوتي</button>
+                <button id="addBtn" type="button" title="إضافة المهمة الجديدة">➕ إضافة المهمة </button>
+            </div>
         </form>
 
         <!-- أدوات البحث والفلترة -->

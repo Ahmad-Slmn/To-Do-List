@@ -74,8 +74,7 @@ body {
 
 /* === Container === */
 .container {
-    max-width: 800px;
-    width: 100%;
+    width: 95%;
     padding: 20px;
     background: var(--container-bg);
     box-shadow: 0 0 10px var(--container-shadow);
@@ -219,6 +218,7 @@ input[type="search"] {
 
 select#priorityInput,
 input[type="datetime-local"] {
+    max-width: 250px;
     padding: var(--padding-base);
     border-radius: 5px;
     border: 1px solid var(--border-color);
@@ -230,9 +230,6 @@ input[type="datetime-local"] {
     cursor: pointer;
 }
 
-select#priorityInput {
-    min-width: 120px;
-}
 
 input[type="datetime-local"] {
     min-width: 180px;
@@ -258,6 +255,30 @@ button {
 }
 
 button:hover {
+    background: var(--button-hover-bg);
+}
+
+/* تنسيق كل حقل مع تسميته */
+.label-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    max-width: 300px;
+    flex-wrap: nowrap
+}
+
+.buttons-group {
+    min-width: 350px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+/* أزرار */
+
+.task-input-form button:hover {
     background: var(--button-hover-bg);
 }
 
@@ -679,12 +700,6 @@ html.dark-theme li.completed span {
     padding-right: 30px;
 }
 
-.label-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 140px;
-    gap: 5px;
-}
 
 .label-group label {
     font-size: 14px;
@@ -1243,6 +1258,17 @@ html.dark-theme li.completed span {
     .edit-container button {
         margin-top: 5px;
     }
+
+    .task-input-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .label-group,
+    .buttons-group {
+        min-width: 100% !important;
+        flex-direction: column !important
+    }
 }
 
 /* Medium screens (480px - 767px) */
@@ -1263,16 +1289,11 @@ html.dark-theme li.completed span {
         gap: 10px;
     }
 
-    input[type="text"] {
-        flex: 1 1 60%;
-        min-width: 60%;
-    }
-
+    input[type="text"],
     select#priorityInput,
-    input[type="datetime-local"],
-    button#addBtn {
-        flex: 1 1 18%;
-        min-width: 18%;
+    input[type="datetime-local"] {
+        flex: 1 1 60%;
+        min-width: 100%;
     }
 
     .header {
@@ -1296,18 +1317,36 @@ html.dark-theme li.completed span {
     #taskList {
         max-height: 350px;
     }
+
+    .task-input-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .label-group {
+        flex: 1 1 calc(50% - 10px);
+    }
+
+    .buttons-group {
+        flex: 1 1 100%;
+        justify-content: flex-start;
+    }
+
+    li {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+    }
+
+    .countdown-normal {
+        width: 100%
+    }
 }
 
 /* Large screens (≥768px) */
 @media (min-width: 768px) {
-    .container {
-        max-width: 80%;
-    }
-
-    form {
-        flex-wrap: nowrap;
-        gap: 5px;
-    }
 
     input[type="text"] {
         max-width: 250px;
@@ -1347,5 +1386,20 @@ html.dark-theme li.completed span {
     #themeToggle {
         font-size: 20px;
         padding: 10px 14px;
+    }
+
+    .task-input-form {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .label-group {
+        flex: 1 1 200px;
+    }
+
+    .buttons-group {
+        flex: 0 0 auto;
+        justify-content: flex-start;
     }
 }
